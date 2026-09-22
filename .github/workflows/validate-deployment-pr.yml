@@ -1,0 +1,98 @@
+name: Validate deployment PR
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Verify deployment manifest and public-only files
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout proposed tree without persisted credentials
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Classify pull request
+        id: classify
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          set -euo pipefail
+          if [[ "${HEAD_REF}" =~ ^deploy/private-[0-9]+-[0-9]+$ ]]; then
+            echo "deployment=true" >> "${GITHUB_OUTPUT}"
+          else
+            echo "deployment=false" >> "${GITHUB_OUTPUT}"
+            echo "Non-deployment PR; deployment artifact validation is not required."
+          fi
+      - name: Reject private or operational files
+        if: steps.classify.outputs.deployment == 'true'
+        run: |
+          set -euo pipefail
+          git diff --name-only --diff-filter=ACDMRT "${{ github.event.pull_request.base.sha }}...HEAD" > "${RUNNER_TEMP}/changed-files.txt"
+          test -s "${RUNNER_TEMP}/changed-files.txt"
+          if grep -E '(^|/)(\.github/|tests?/|scripts?/|vite/|node_modules/|playwright-report/|test-results/|\.env([^/]*)?$)|(^|/)(package(-lock)?\.json|vite\.config\.[^/]+|id_rsa|id_ed25519|[^/]+\.(pem|key|p12|pfx|map))$|^README\.md$' "${RUNNER_TEMP}/changed-files.txt"; then
+            echo "Deployment PR contains a forbidden private, build, credential, or source-map file."
+            exit 1
+          fi
+      - name: Verify manifest, hashes, game entry and eq38
+        if: steps.classify.outputs.deployment == 'true'
+        run: |
+          node <<'NODE'
+          const crypto = require('crypto');
+          const fs = require('fs');
+          const path = require('path');
+
+          function listFiles(directory = '.', base = '.') {
+            const excluded = new Set(['.git', '.github']);
+            return fs.readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
+              if (entry.isDirectory() && excluded.has(entry.name)) return [];
+              const absolute = path.join(directory, entry.name);
+              if (entry.isDirectory()) return listFiles(absolute, base);
+              const relative = path.relative(base, absolute).split(path.sep).join('/');
+              if (!entry.isFile() || relative === 'README.md' || relative === 'deployment-manifest.json') return [];
+              return [relative];
+            });
+          }
+
+          function sha256(file) {
+            return crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
+          }
+
+          if (!fs.existsSync('index.html')) throw new Error('Missing index.html');
+          if (!fs.existsSync('.nojekyll')) throw new Error('Missing .nojekyll');
+          if (!fs.existsSync('deployment-manifest.json')) throw new Error('Missing deployment-manifest.json');
+
+          const html = fs.readFileSync('index.html', 'utf8');
+          if (!html.includes('eq38')) throw new Error('index.html does not preserve eq38');
+          if (/localStorage\s*\.\s*clear\s*\(/.test(html)) throw new Error('index.html calls localStorage.clear()');
+          if (/removeItem\s*\(\s*['"]eq38['"]\s*\)/.test(html)) throw new Error('index.html removes eq38');
+          if (/sourceMappingURL\s*=/.test(html)) throw new Error('index.html exposes a source map');
+
+          const manifest = JSON.parse(fs.readFileSync('deployment-manifest.json', 'utf8'));
+          if (manifest.schema !== 1) throw new Error('Unexpected manifest schema');
+          if (manifest.source !== 'private-vite-build') throw new Error('Unexpected manifest source');
+
+          const files = listFiles().sort();
+          const recorded = Object.keys(manifest.files || {}).sort();
+          if (JSON.stringify(files) !== JSON.stringify(recorded)) {
+            throw new Error('Manifest file list does not exactly match the deployment tree');
+          }
+
+          for (const file of files) {
+            const item = manifest.files[file];
+            if (item.bytes !== fs.statSync(file).size) throw new Error(`Byte count mismatch: ${file}`);
+            if (item.sha256 !== sha256(file)) throw new Error(`SHA-256 mismatch: ${file}`);
+          }
+
+          console.log(`Deployment validation passed: ${files.length} runtime files match the signed manifest.`);
+          NODE
