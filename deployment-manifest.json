@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "source": "private-build",
-  "generatedAt": "2026-09-22T00:42:34.530Z",
+  "source": "private-vite-build",
+  "generatedAt": "2026-09-22T05:25:54.981Z",
   "files": {
     ".nojekyll": {
       "bytes": 0,
