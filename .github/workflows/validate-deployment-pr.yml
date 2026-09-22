@@ -44,11 +44,14 @@ jobs:
             echo "Deployment PR contains a forbidden private, build, credential, or source-map file."
             exit 1
           fi
-      - name: Verify manifest, hashes, game entry and eq38
+      - name: Verify manifest, provenance, hashes, game entry and eq38
         if: steps.classify.outputs.deployment == 'true'
+        env:
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
           node <<'NODE'
           const crypto = require('crypto');
+          const { execFileSync } = require('child_process');
           const fs = require('fs');
           const path = require('path');
 
@@ -81,6 +84,30 @@ jobs:
           const manifest = JSON.parse(fs.readFileSync('deployment-manifest.json', 'utf8'));
           if (manifest.schema !== 1) throw new Error('Unexpected manifest schema');
           if (manifest.source !== 'private-vite-build') throw new Error('Unexpected manifest source');
+          if (manifest.sourceRepository !== 'jacn22025-spec/english-quest-private-backup') {
+            throw new Error('Unexpected source repository');
+          }
+          if (!/^[0-9a-f]{40}$/.test(manifest.sourceCommit || '')) {
+            throw new Error('sourceCommit must be a full lowercase Git SHA');
+          }
+          if (!/^[0-9a-f]{40}$/.test(manifest.source_commit_sha || '')) {
+            throw new Error('source_commit_sha must be a full lowercase Git SHA');
+          }
+          if (manifest.source_commit_sha !== manifest.sourceCommit) {
+            throw new Error('source_commit_sha must match sourceCommit');
+          }
+          if (!/^\d+$/.test(String(manifest.buildRunId || ''))) {
+            throw new Error('buildRunId must be numeric');
+          }
+
+          const subject = execFileSync(
+            'git',
+            ['show', '-s', '--format=%s', process.env.HEAD_SHA],
+            { encoding: 'utf8' }
+          ).trim();
+          if (subject !== `Deploy verified private build ${manifest.source_commit_sha}`) {
+            throw new Error('Deployment commit subject does not match source_commit_sha');
+          }
 
           const files = listFiles().sort();
           const recorded = Object.keys(manifest.files || {}).sort();
@@ -94,5 +121,7 @@ jobs:
             if (item.sha256 !== sha256(file)) throw new Error(`SHA-256 mismatch: ${file}`);
           }
 
-          console.log(`Deployment validation passed: ${files.length} runtime files match the signed manifest.`);
+          console.log(
+            `Deployment validation passed for ${manifest.source_commit_sha}: ${files.length} runtime files match the signed manifest.`
+          );
           NODE
