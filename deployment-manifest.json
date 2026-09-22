@@ -1,7 +1,11 @@
 {
   "schema": 1,
-  "source": "private-build",
-  "generatedAt": "2026-09-22T00:42:34.530Z",
+  "source": "private-vite-build",
+  "sourceRepository": "jacn22025-spec/english-quest-private-backup",
+  "sourceCommit": "d7632cd0f4c08f44209c850cb07747e413aeaee2",
+  "source_commit_sha": "d7632cd0f4c08f44209c850cb07747e413aeaee2",
+  "buildRunId": "35704313290",
+  "generatedAt": "2026-09-22T08:21:14.439Z",
   "files": {
     ".nojekyll": {
       "bytes": 0,
