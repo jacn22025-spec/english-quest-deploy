@@ -1,53 +1,159 @@
 name: Validate deployment PR
 
+# This workflow is loaded from the trusted default branch. A bot-created PR
+# cannot bypass validation by modifying its own workflow file.
 on:
   pull_request:
     branches: [main]
+    paths:
+      - '.github/workflows/validate-deployment-pr.yml'
+      - '.github/workflows/auto-merge-verified-deployment.yml'
+  workflow_run:
+    workflows: ["Open verified deployment PR"]
+    types: [completed]
 
 permissions:
   contents: read
+  pull-requests: read
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  group: trusted-deployment-${{ github.event.workflow_run.head_branch || github.head_ref || github.ref }}
+  cancel-in-progress: false
 
 jobs:
-  validate:
-    name: Verify deployment manifest and public-only files
+  workflow-safety:
+    if: ${{ github.event_name == 'pull_request' }}
+    name: Verify deployment workflow safety
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 5
+    permissions:
+      contents: read
     steps:
-      - name: Checkout proposed tree without persisted credentials
+      - name: Checkout workflow proposal without persisted credentials
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           fetch-depth: 0
           persist-credentials: false
-      - name: Classify pull request
-        id: classify
+      - name: Check exact file scope and fail-closed controls
         env:
-          HEAD_REF: ${{ github.head_ref }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
           set -euo pipefail
-          if [[ "${HEAD_REF}" =~ ^deploy/private-[0-9]+-[0-9]+$ ]]; then
-            echo "deployment=true" >> "${GITHUB_OUTPUT}"
-          else
-            echo "deployment=false" >> "${GITHUB_OUTPUT}"
-            echo "Non-deployment PR; deployment artifact validation is not required."
+          python3 <<'PY'
+          import pathlib
+          import subprocess
+
+          changed = sorted(subprocess.check_output(
+              ['git', 'diff', '--name-only', '--diff-filter=ACDMRT', f'{__import__("os").environ["BASE_SHA"]}...HEAD'],
+              text=True,
+          ).splitlines())
+          expected = sorted([
+              '.github/workflows/auto-merge-verified-deployment.yml',
+              '.github/workflows/validate-deployment-pr.yml',
+          ])
+          if changed != expected:
+              raise SystemExit(f'Unexpected infrastructure PR file scope: {changed!r}')
+
+          workflow = pathlib.Path('.github/workflows/validate-deployment-pr.yml').read_text()
+          required = [
+              'workflow_run:',
+              'PUBLIC_DEPLOY_AUTOMATION_TOKEN',
+              '--match-head-commit',
+              'Main changed since validation; refusing merge.',
+              'A newer deployment PR appeared after validation',
+              'persist-credentials: false',
+          ]
+          missing = [item for item in required if item not in workflow]
+          if missing:
+              raise SystemExit(f'Missing fail-closed controls: {missing!r}')
+          forbidden_trigger = 'pull_request' + '_target:'
+          if forbidden_trigger in workflow:
+              raise SystemExit('pull_request_target is forbidden for deployment validation')
+          if pathlib.Path('.github/workflows/auto-merge-verified-deployment.yml').exists():
+              raise SystemExit('Duplicate legacy auto-merge workflow still exists')
+          print('Deployment workflow safety checks passed.')
+          PY
+
+  validate:
+    if: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' }}
+    name: Verify deployment manifest and public-only files
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      pr_number: ${{ steps.identify.outputs.pr_number }}
+      head_sha: ${{ steps.identify.outputs.head_sha }}
+      base_sha: ${{ steps.identify.outputs.base_sha }}
+    steps:
+      - name: Identify an exact same-repository deployment PR
+        id: identify
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RUN_HEAD_REPO: ${{ github.event.workflow_run.head_repository.full_name }}
+          RUN_HEAD_REF: ${{ github.event.workflow_run.head_branch }}
+          RUN_HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          set -euo pipefail
+          test "${RUN_HEAD_REPO}" = "${GH_REPO}"
+          [[ "${RUN_HEAD_REF}" =~ ^deploy/private-[0-9]+-[0-9]+$ ]]
+          [[ "${RUN_HEAD_SHA}" =~ ^[0-9a-f]{40}$ ]]
+
+          candidates="$(gh pr list --repo "${GH_REPO}" --state open --base main --head "${RUN_HEAD_REF}" --json number,headRefOid)"
+          number="$(jq -r --arg sha "${RUN_HEAD_SHA}" '[.[] | select(.headRefOid==$sha)] | if length==1 then .[0].number else empty end' <<<"${candidates}")"
+          test -n "${number}"
+
+          pr="$(gh api "repos/${GH_REPO}/pulls/${number}")"
+          jq -e --arg repo "${GH_REPO}" --arg branch "${RUN_HEAD_REF}" --arg sha "${RUN_HEAD_SHA}" \
+            '.state=="open" and .draft==false and .base.ref=="main" and .base.repo.full_name==$repo and .head.repo.full_name==$repo and .head.ref==$branch and .head.sha==$sha' \
+            <<<"${pr}" >/dev/null
+          base_sha="$(gh api "repos/${GH_REPO}/git/ref/heads/main" --jq '.object.sha')"
+          test "$(jq -r '.base.sha' <<<"${pr}")" = "${base_sha}"
+
+          # Do not validate an older deployment if a newer candidate is open.
+          candidate_run="${RUN_HEAD_REF#deploy/private-}"
+          candidate_run="${candidate_run%-*}"
+          latest_run="$(gh pr list --repo "${GH_REPO}" --state open --base main --limit 1000 --json headRefName \
+            --jq '[.[].headRefName | capture("^deploy/private-(?<run>[0-9]+)-[0-9]+$")? | .run | tonumber] | max // 0')"
+          if (( 10#${candidate_run} < latest_run )); then
+            echo "A newer deployment PR exists; refusing stale candidate ${RUN_HEAD_REF}."
+            exit 1
           fi
-      - name: Reject private or operational files
-        if: steps.classify.outputs.deployment == 'true'
+
+          echo "pr_number=${number}" >> "${GITHUB_OUTPUT}"
+          echo "head_sha=${RUN_HEAD_SHA}" >> "${GITHUB_OUTPUT}"
+          echo "base_sha=${base_sha}" >> "${GITHUB_OUTPUT}"
+
+      # The token is read-only and is not kept in the checkout. All shell and
+      # Node code below comes from this trusted workflow, never from PR files.
+      - name: Checkout exact proposed tree without persisted credentials
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ steps.identify.outputs.head_sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Require latest main as an ancestor and reject operational files
+        env:
+          BASE_SHA: ${{ steps.identify.outputs.base_sha }}
+          HEAD_SHA: ${{ steps.identify.outputs.head_sha }}
         run: |
           set -euo pipefail
-          git diff --name-only --diff-filter=ACDMRT "${{ github.event.pull_request.base.sha }}...HEAD" > "${RUNNER_TEMP}/changed-files.txt"
+          test "$(git rev-parse HEAD)" = "${HEAD_SHA}"
+          git cat-file -e "${BASE_SHA}^{commit}"
+          git merge-base --is-ancestor "${BASE_SHA}" "${HEAD_SHA}" || {
+            echo "Main advanced after this deployment branch was built; rebuild and revalidate."
+            exit 1
+          }
+          git diff --name-only --diff-filter=ACDMRT "${BASE_SHA}...${HEAD_SHA}" > "${RUNNER_TEMP}/changed-files.txt"
           test -s "${RUNNER_TEMP}/changed-files.txt"
           if grep -E '(^|/)(\.github/|tests?/|scripts?/|vite/|node_modules/|playwright-report/|test-results/|\.env([^/]*)?$)|(^|/)(package(-lock)?\.json|vite\.config\.[^/]+|id_rsa|id_ed25519|[^/]+\.(pem|key|p12|pfx|map))$|^README\.md$' "${RUNNER_TEMP}/changed-files.txt"; then
             echo "Deployment PR contains a forbidden private, build, credential, or source-map file."
             exit 1
           fi
+
       - name: Verify manifest, provenance, hashes, game entry and eq38
-        if: steps.classify.outputs.deployment == 'true'
         env:
-          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          HEAD_SHA: ${{ steps.identify.outputs.head_sha }}
         run: |
           node <<'NODE'
           const crypto = require('crypto');
@@ -125,3 +231,52 @@ jobs:
             `Deployment validation passed for ${manifest.source_commit_sha}: ${files.length} runtime files match the signed manifest.`
           );
           NODE
+
+  merge:
+    needs: validate
+    if: ${{ needs.validate.result == 'success' }}
+    name: Merge exact verified deployment PR
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - name: Recheck main and merge only the exact validated head
+        env:
+          # A GITHUB_TOKEN merge suppresses subsequent main push workflows,
+          # including the production Pages/Smoke verification. Configure this
+          # scoped GitHub App/PAT secret before enabling automatic merges.
+          GH_TOKEN: ${{ secrets.PUBLIC_DEPLOY_AUTOMATION_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ needs.validate.outputs.pr_number }}
+          HEAD_SHA: ${{ needs.validate.outputs.head_sha }}
+          BASE_SHA: ${{ needs.validate.outputs.base_sha }}
+        run: |
+          set -euo pipefail
+          if [ -z "${GH_TOKEN}" ]; then
+            echo "PUBLIC_DEPLOY_AUTOMATION_TOKEN is missing; refusing automatic merge to preserve Pages and post-deploy Smoke triggers."
+            exit 1
+          fi
+          [[ "${PR_NUMBER}" =~ ^[0-9]+$ ]]
+          [[ "${HEAD_SHA}" =~ ^[0-9a-f]{40}$ ]]
+          [[ "${BASE_SHA}" =~ ^[0-9a-f]{40}$ ]]
+          current_base="$(gh api "repos/${GH_REPO}/git/ref/heads/main" --jq '.object.sha')"
+          test "${current_base}" = "${BASE_SHA}" || {
+            echo "Main changed since validation; refusing merge."
+            exit 1
+          }
+          pr="$(gh api "repos/${GH_REPO}/pulls/${PR_NUMBER}")"
+          jq -e --arg repo "${GH_REPO}" --arg sha "${HEAD_SHA}" --arg base "${BASE_SHA}" \
+            '.state=="open" and .draft==false and .base.ref=="main" and .base.sha==$base and .base.repo.full_name==$repo and .head.repo.full_name==$repo and .head.sha==$sha and (.head.ref|test("^deploy/private-[0-9]+-[0-9]+$"))' \
+            <<<"${pr}" >/dev/null
+          branch="$(jq -r '.head.ref' <<<"${pr}")"
+          candidate_run="${branch#deploy/private-}"
+          candidate_run="${candidate_run%-*}"
+          latest_run="$(gh pr list --repo "${GH_REPO}" --state open --base main --limit 1000 --json headRefName \
+            --jq '[.[].headRefName | capture("^deploy/private-(?<run>[0-9]+)-[0-9]+$")? | .run | tonumber] | max // 0')"
+          if (( 10#${candidate_run} < latest_run )); then
+            echo "A newer deployment PR appeared after validation; refusing stale candidate ${branch}."
+            exit 1
+          fi
+          gh pr merge "${PR_NUMBER}" --repo "${GH_REPO}" --merge --match-head-commit "${HEAD_SHA}"
