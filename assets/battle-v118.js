@@ -98,7 +98,6 @@
       setTimeout(()=>enemy?.classList.add('hit'),140);
       const w=weapons.find(x=>x.id===S.weapon)||weapons[0];
       battle.hp=Math.max(0,battle.hp-w.atk);
-      window.dispatchEvent(new CustomEvent('english-quest:answer',{detail:{correct:true,topic:'拼字怪獸戰',source:'英文怪獸戰'}}));
       addXP(5);addDaily();save();
       showFeedback('命中！答對了 ♡');
       if(battle.hp<=0){
@@ -111,11 +110,12 @@
       }else{
         setTimeout(()=>{if(battle){battle.q=null;renderBattle()}},600);
       }
+      // Emit after every save so the learning-history row survives the core state snapshot.
+      window.dispatchEvent(new CustomEvent('english-quest:answer',{detail:{correct:true,topic:'拼字怪獸戰',source:'英文怪獸戰'}}));
     }else{
       document.getElementById('fighter')?.classList.add('hurt');
       S.wrongWords[battle.q.ans]=(S.wrongWords[battle.q.ans]||0)+1;
       if(typeof v87AddWrong==='function')v87AddWrong('vocab','中文「'+battle.q.zh+'」的英文是？',battle.q.ans,[],'英文怪獸戰');
-      window.dispatchEvent(new CustomEvent('english-quest:answer',{detail:{correct:false,topic:'拼字怪獸戰',source:'英文怪獸戰'}}));
       S.hearts=Math.max(0,S.hearts-1);save();
       showFeedback('再試一次：正確答案是 '+battle.q.ans);
       if(S.hearts===0){
@@ -124,6 +124,8 @@
       }else{
         setTimeout(()=>{if(battle){battle.q=null;renderBattle()}},1050);
       }
+      // Emit after every save so the learning-history row survives the core state snapshot.
+      window.dispatchEvent(new CustomEvent('english-quest:answer',{detail:{correct:false,topic:'拼字怪獸戰',source:'英文怪獸戰'}}));
     }
   }
 
