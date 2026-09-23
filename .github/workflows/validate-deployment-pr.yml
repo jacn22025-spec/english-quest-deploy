@@ -66,7 +66,8 @@ jobs:
           missing = [item for item in required if item not in workflow]
           if missing:
               raise SystemExit(f'Missing fail-closed controls: {missing!r}')
-          if 'pull_request_target:' in workflow:
+          forbidden_trigger = 'pull_request' + '_target:'
+          if forbidden_trigger in workflow:
               raise SystemExit('pull_request_target is forbidden for deployment validation')
           if pathlib.Path('.github/workflows/auto-merge-verified-deployment.yml').exists():
               raise SystemExit('Duplicate legacy auto-merge workflow still exists')
