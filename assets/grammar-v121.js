@@ -93,7 +93,15 @@ function makeCostTakeSpend(){
   return out
 }
 
-const banks=[makeBe(),makePresent(),makePast(),makeFuture(),makeContinuous(),makePrepositions(),makeWh(),makeCan(),makeTags(),makeCostTakeSpend()];
+function expandTo200(bank){
+  const reverse=bank.map((row,i)=>{
+    const prompt=String(row[0]||'');
+    const choices=(row[1]||[]).map(opt=>prompt.includes('___')?prompt.replace('___',opt):prompt+' '+opt);
+    return q(`Which completed sentence is grammatically correct? “${prompt}”`,choices,row[2],100+(row[3]||i));
+  });
+  return [...bank,...reverse];
+}
+const banks=[makeBe(),makePresent(),makePast(),makeFuture(),makeContinuous(),makePrepositions(),makeWh(),makeCan(),makeTags(),makeCostTakeSpend()].map(expandTo200);
 window.grammarBanksV121=banks;
 grammarMap.forEach((topic,i)=>{topicBanks[topic]=banks[i]});
 const starKey='eq121GrammarStars';
@@ -105,8 +113,8 @@ let grammarRun=false;
 makeQuiz=function(topic){
   const pool=topicBanks[topic]||topicBanks[0];
   if(!grammarSet.has(topic))return shuffle(pool).slice(0,10).map(row=>{const opts=row[1].map((text,j)=>({text,ok:j===row[2]}));return {text:row[0],opts:shuffle(opts)}});
-  const star=getStar(topic),band=Math.min(4,star),start=band*20;
-  return shuffle(pool.slice(start,start+20)).slice(0,10).sort((a,b)=>(a[3]||0)-(b[3]||0)).map(row=>{
+  const star=getStar(topic),band=Math.min(4,star),start=band*40;
+  return shuffle(pool.slice(start,start+40)).slice(0,10).sort((a,b)=>(a[3]||0)-(b[3]||0)).map(row=>{
     const opts=row[1].map((text,j)=>({text,ok:j===row[2]}));return {text:row[0],opts:shuffle(opts),difficulty:row[3]}
   });
 };
