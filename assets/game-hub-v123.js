@@ -78,6 +78,23 @@ function startTownVocab(type){
 }
 window.startVocab=startTownVocab;
 
+// Vocabulary Town buttons are rendered by the legacy/custom map UI. Route their
+// visible labels to the dedicated topic banks without changing the map markup.
+document.addEventListener('click',e=>{
+ const b=e.target.closest('button');if(!b)return;
+ const label=(b.textContent||'').replace(/\s+/g,'').trim();
+ const routes=[
+  [/^動詞小鎮$/, 'verb'],
+  [/^名詞小鎮$/, 'noun'],
+  [/^相反詞小鎮$/, 'opposite'],
+  [/^千詞表小鎮$/, 'words'],
+  [/^不規則動詞$/, 'irregular']
+ ];
+ const hit=routes.find(([re])=>re.test(label));if(!hit)return;
+ e.preventDefault();e.stopImmediatePropagation();
+ startTownVocab(hit[1]);
+},true);
+
 function init(){const gameButton=$('[data-companion120="home"] [data-c120="games"]');if(gameButton){gameButton.dataset.c120='gameHub123';gameButton.setAttribute('aria-label','前往遊戲主頁')}showNote(0);renderWrong();const oldMenu=window.v81Menu||v81Menu;window.v81Menu=v81Menu=function(type){open(type==='grammar'?'grammarExam123':'vocabExam123')};document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.hub123Open){open(b.dataset.hub123Open);if(b.dataset.hub123Open==='wrongBook123')renderWrong();return}if(b.dataset.hub123Nav){leave(b.dataset.hub123Nav);return}if(b.dataset.hub123Note!==undefined){showNote(+b.dataset.hub123Note);return}if(b.dataset.hub123Wrongtab){renderWrong(b.dataset.hub123Wrongtab);return}if(b.dataset.hub123Retry){const [type,i]=b.dataset.hub123Retry.split(':');leave('games');v87StartReview(type,+i);return}if(b.dataset.hub123Retryall){leave('games');v87StartReview(b.dataset.hub123Retryall);return}if(b.dataset.hub123Clear){if(confirm('確定清除此分類的錯題嗎？')){S.wrongBank[b.dataset.hub123Clear]=[];save();renderWrong(b.dataset.hub123Clear)}return}if(b.dataset.hub123Choice){const [kind,id]=b.dataset.hub123Choice.split(':');selected[kind].has(id)?selected[kind].delete(id):selected[kind].add(id);b.classList.toggle('selected',selected[kind].has(id));b.setAttribute('aria-pressed',String(selected[kind].has(id)));return}if(b.dataset.hub123Count){const [kind,n]=b.dataset.hub123Count.split(':');examCount[kind]=+n;all(`[data-hub123-count^="${kind}:"]`).forEach(x=>{const on=x===b;x.classList.toggle('selected',on);x.setAttribute('aria-pressed',String(on))});return}if(b.dataset.hub123Start){b.dataset.hub123Start==='grammar'?startGrammar():startVocab();return}},true);new MutationObserver(()=>{if($('#wrongBook123.on'))renderWrong()}).observe(document.body,{subtree:true,attributes:true,attributeFilter:['class']})}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 
