@@ -44,6 +44,7 @@ page('wrongBook123',images.wrong,`<div class="hub123WrongPanel"></div>`);
 let wrongTab='grammar';
 function renderWrong(type=wrongTab){wrongTab=type;S.wrongBank=S.wrongBank||{grammar:[],vocab:[]};const arr=S.wrongBank[type]||[],p=$('#wrongBook123 .hub123WrongPanel');if(!p)return;p.innerHTML=`<div class="hub123WrongTabs"><button class="${type==='grammar'?'on':''}" data-hub123-wrongtab="grammar">文法 ${S.wrongBank.grammar.length}</button><button class="${type==='vocab'?'on':''}" data-hub123-wrongtab="vocab">字彙 ${S.wrongBank.vocab.length}</button></div>${arr.length?`<div class="hub123WrongList">${arr.map((x,i)=>`<div class="hub123WrongItem"><small>${esc(x.source||(type==='grammar'?'文法':'字彙'))}</small><b>${esc(x.q)}</b><span>正確答案：${esc(x.answer)}・答錯 ${x.count||1} 次</span><button data-hub123-retry="${type}:${i}">再練一次</button></div>`).join('')}</div><div class="hub123WrongActions"><button data-hub123-retryall="${type}">複習這一類</button><button data-hub123-clear="${type}">清除此分類</button></div>`:`<div class="hub123WrongEmpty">${type==='grammar'?'文法':'字彙'}目前沒有錯題<br><small>答錯後會自動收進來。</small></div>`}`}
 
+const vb126=document.createElement('script');vb126.src='assets/vocab-bank-v126.js';document.head.appendChild(vb126);
 const grammarChoices=[['present','現在簡單式'],['past','過去簡單式'],['future','簡單未來式'],['presentContinuous','現在進行式'],['pastContinuous','過去進行式'],['cost','cost / spend / take']];
 const vocabChoices=[['verbs','動詞'],['countable','可數／不可數名詞'],['antonym','相反詞'],['thousand','千詞表']];
 const choiceButtons=(kind,choices,positions)=>choices.map((c,i)=>`<button class="hub123Tap" data-hub123-choice="${kind}:${c[0]}" style="left:${positions[i][0]}%;top:${positions[i][1]}%;width:${positions[i][2]}%;height:${positions[i][3]}%" aria-label="${c[1]}" aria-pressed="false">${c[1]}</button>`).join('');
@@ -63,13 +64,13 @@ function startVocab(){const ids=[...selected.vocab];if(!ids.length)return status
 
 function startTownVocab(type){
  let pool=[];
- if(type==='noun')pool=(window.v119Banks?.countable||[]).map(q=>fourChoices(q,/countable or uncountable/i.test(q.q)?'neither':'None of the above'));
- else if(type==='opposite')pool=(window.v119Banks?.similar||[]).filter(q=>q.source==='相反詞').map(q=>fourChoices(q,'None of the above'));
- else if(type==='irregular')pool=(window.v119Banks?.irregular||[]).map(q=>fourChoices(q,'None of the above'));
+ if(type==='noun')pool=(window.eq126VocabBanks?.countable||window.v119Banks?.countable||[]).map(q=>fourChoices(q,/countable or uncountable/i.test(q.q)?'neither':'None of the above'));
+ else if(type==='opposite')pool=(window.eq126VocabBanks?.antonym||(window.v119Banks?.similar||[]).filter(q=>q.source==='相反詞')).map(q=>fourChoices(q,'None of the above'));
+ else if(type==='irregular')pool=(window.eq126VocabBanks?.irregular||window.v119Banks?.irregular||[]).map(q=>fourChoices(q,'None of the above'));
  else if(type==='verb'||type==='words'){
-  let words=spellWords.filter(w=>type==='words'||v81Verbs.has(String(w[1]||'').toLowerCase())),seen=new Set();
-  words=words.filter(w=>{const k=String(w[1]||'').toLowerCase();if(!k||seen.has(k))return false;seen.add(k);return true});
-  pool=words.map(w=>v81VocabQ(w,words));
+  const modern=type==='verb'?window.eq126VocabBanks?.verbs:window.eq126VocabBanks?.thousand;
+  if(modern?.length)pool=[...modern];
+  else {let words=spellWords.filter(w=>type==='words'||v81Verbs.has(String(w[1]||'').toLowerCase())),seen=new Set();words=words.filter(w=>{const k=String(w[1]||'').toLowerCase();if(!k||seen.has(k))return false;seen.add(k);return true});pool=words.map(w=>v81VocabQ(w,words));}
  }
  if(!pool.length)return alert('目前沒有可用題目');
  v82ExamCount=10;v81Exam={type:'vocab',qs:v81Shuffle(pool).slice(0,Math.min(10,pool.length)),i:0,score:0};
