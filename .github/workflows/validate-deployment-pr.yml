@@ -3,6 +3,11 @@ name: Validate deployment PR
 # This workflow is loaded from the trusted default branch. A bot-created PR
 # cannot bypass validation by modifying its own workflow file.
 on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/validate-deployment-pr.yml'
+      - '.github/workflows/auto-merge-verified-deployment.yml'
   workflow_run:
     workflows: ["Open verified deployment PR"]
     types: [completed]
@@ -12,12 +17,64 @@ permissions:
   pull-requests: read
 
 concurrency:
-  group: trusted-deployment-${{ github.event.workflow_run.head_branch }}
+  group: trusted-deployment-${{ github.event.workflow_run.head_branch || github.head_ref || github.ref }}
   cancel-in-progress: false
 
 jobs:
+  workflow-safety:
+    if: ${{ github.event_name == 'pull_request' }}
+    name: Verify deployment workflow safety
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout workflow proposal without persisted credentials
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Check exact file scope and fail-closed controls
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+          python3 <<'PY'
+          import pathlib
+          import subprocess
+
+          changed = sorted(subprocess.check_output(
+              ['git', 'diff', '--name-only', '--diff-filter=ACDMRT', f'{__import__("os").environ["BASE_SHA"]}...HEAD'],
+              text=True,
+          ).splitlines())
+          expected = sorted([
+              '.github/workflows/auto-merge-verified-deployment.yml',
+              '.github/workflows/validate-deployment-pr.yml',
+          ])
+          if changed != expected:
+              raise SystemExit(f'Unexpected infrastructure PR file scope: {changed!r}')
+
+          workflow = pathlib.Path('.github/workflows/validate-deployment-pr.yml').read_text()
+          required = [
+              'workflow_run:',
+              'PUBLIC_DEPLOY_AUTOMATION_TOKEN',
+              '--match-head-commit',
+              'Main changed since validation; refusing merge.',
+              'A newer deployment PR appeared after validation',
+              'persist-credentials: false',
+          ]
+          missing = [item for item in required if item not in workflow]
+          if missing:
+              raise SystemExit(f'Missing fail-closed controls: {missing!r}')
+          if 'pull_request_target:' in workflow:
+              raise SystemExit('pull_request_target is forbidden for deployment validation')
+          if pathlib.Path('.github/workflows/auto-merge-verified-deployment.yml').exists():
+              raise SystemExit('Duplicate legacy auto-merge workflow still exists')
+          print('Deployment workflow safety checks passed.')
+          PY
+
   validate:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' }}
     name: Verify deployment manifest and public-only files
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -51,7 +108,7 @@ jobs:
           base_sha="$(gh api "repos/${GH_REPO}/git/ref/heads/main" --jq '.object.sha')"
           test "$(jq -r '.base.sha' <<<"${pr}")" = "${base_sha}"
 
-          # Ignore older deploy PRs when a newer deployment candidate is open.
+          # Do not validate an older deployment if a newer candidate is open.
           candidate_run="${RUN_HEAD_REF#deploy/private-}"
           candidate_run="${candidate_run%-*}"
           latest_run="$(gh pr list --repo "${GH_REPO}" --state open --base main --limit 1000 --json headRefName \
@@ -186,8 +243,9 @@ jobs:
     steps:
       - name: Recheck main and merge only the exact validated head
         env:
-          # GITHUB_TOKEN merges suppress subsequent main push workflows.
-          # Require a scoped GitHub App/PAT so Pages and Smoke will run.
+          # A GITHUB_TOKEN merge suppresses subsequent main push workflows,
+          # including the production Pages/Smoke verification. Configure this
+          # scoped GitHub App/PAT secret before enabling automatic merges.
           GH_TOKEN: ${{ secrets.PUBLIC_DEPLOY_AUTOMATION_TOKEN }}
           GH_REPO: ${{ github.repository }}
           PR_NUMBER: ${{ needs.validate.outputs.pr_number }}
