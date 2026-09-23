@@ -42,11 +42,11 @@ const subjects=[
 ];
 const verbs=['play','study','watch','go','eat','drink','read','write','wash','do'];
 const complements=['a student','happy today','in the classroom','ready for school','my best friend','very busy','at home','good classmates','ten years old','from Taiwan'];
-function makeBe(){const out=[];for(let i=0;i<100;i++){const s=subjects[i%10],c=complements[Math.floor(i/10)];if(i<50)out.push(q(`${s.s} ___ ${c}.`,['am','is','are','be'],['am','is','are','be'].indexOf(s.be),i));else{const noun=`${s.s} ${s.be} ${c}.`,all=['I','You','He','She','It','We','They'],opts=[s.pro,...all.filter(x=>x!==s.pro).slice((i*2)%4,(i*2)%4+3)];while(opts.length<4)opts.push(all.find(x=>!opts.includes(x)));out.push(q(`${noun} ___ ${i%2?'is':'looks'} great.`,opts,0,i))}}return out}
-function makePresent(){const out=[];for(let i=0;i<100;i++){const s=subjects[i%10],v=verbs[Math.floor(i/10)],ans=s.third?third(v):v;out.push(q(`${s.s} ___ ${v==='go'?'to school':v==='study'?'English':v==='watch'?'TV':v==='eat'?'breakfast':v==='drink'?'water':v==='read'?'books':v==='write'?'emails':v==='wash'?'the dishes':v==='do'?'homework':'basketball'} every ${i<40?'day':i<70?'morning':'week'}.`,[v,third(v),past(v),(s.be+' '+ing(v))],s.third?1:0,i))}return out}
-function makePast(){const out=[];for(let i=0;i<100;i++){const s=subjects[i%10],v=verbs[Math.floor(i/10)],p=past(v);out.push(q(`${i<50?'Yesterday':'Last '+['night','Sunday','week','month','summer'][i%5]}, ${s.s.toLowerCase()} ___ ${v==='go'?'to the park':v==='study'?'English':v==='watch'?'a movie':v==='eat'?'breakfast':v==='drink'?'juice':v==='read'?'a story':v==='write'?'a letter':v==='wash'?'the car':v==='do'?'homework':'basketball'}.`,[v,third(v),p,'will '+v],2,i))}return out}
-function makeFuture(){const out=[];const times=['tomorrow','next Monday','tonight','next week','this weekend','soon','next month','after school','later','in the future'];for(let i=0;i<100;i++){const s=subjects[i%10],v=verbs[Math.floor(i/10)];out.push(q(`${s.s} ___ ${v==='go'?'to Taipei':v==='study'?'English':v==='watch'?'a movie':v==='eat'?'dinner':v==='drink'?'some water':v==='read'?'the book':v==='write'?'to Grandma':v==='wash'?'the car':v==='do'?'the work':'basketball'} ${times[i%10]}.`,['will '+v,past(v),third(v),s.be+' '+ing(v)],0,i))}return out}
-function makeContinuous(){const out=[];for(let i=0;i<100;i++){const s=subjects[i%10],v=verbs[Math.floor(i/10)],ans=s.be+' '+ing(v);out.push(q(`${i<50?'Look!':'Right now,'} ${s.s.toLowerCase()} ___ ${v==='go'?'home':v==='study'?'English':v==='watch'?'TV':v==='eat'?'lunch':v==='drink'?'milk':v==='read'?'a book':v==='write'?'a note':v==='wash'?'the dishes':v==='do'?'homework':'basketball'}.`,[v,past(v),ans,'will '+v],2,i))}return out}
+function makeBe(){const out=[];for(let i=0;i<200;i++){const s=subjects[i%10],c=complements[Math.floor(i/10)%10];if(i<50)out.push(q(`${s.s} ___ ${c}.`,['am','is','are','be'],['am','is','are','be'].indexOf(s.be),i));else{const noun=`${s.s} ${s.be} ${c}.`,all=['I','You','He','She','It','We','They'],opts=[s.pro,...all.filter(x=>x!==s.pro).slice((i*2)%4,(i*2)%4+3)];while(opts.length<4)opts.push(all.find(x=>!opts.includes(x)));out.push(q(`${noun} ___ ${i%2?'is':'looks'} great.`,opts,0,i))}}return out}
+function makePresent(){const out=[];for(let i=0;i<200;i++){const s=subjects[i%10],v=verbs[Math.floor(i/10)%10],ans=s.third?third(v):v;out.push(q(`${s.s} ___ ${v==='go'?'to school':v==='study'?'English':v==='watch'?'TV':v==='eat'?'breakfast':v==='drink'?'water':v==='read'?'books':v==='write'?'emails':v==='wash'?'the dishes':v==='do'?'homework':'basketball'} every ${i<40?'day':i<70?'morning':'week'}.`,[v,third(v),past(v),(s.be+' '+ing(v))],s.third?1:0,i))}return out}
+function makePast(){const out=[];for(let i=0;i<200;i++){const s=subjects[i%10],v=verbs[Math.floor(i/10)%10],p=past(v);out.push(q(`${i<50?'Yesterday':'Last '+['night','Sunday','week','month','summer'][i%5]}, ${s.s.toLowerCase()} ___ ${v==='go'?'to the park':v==='study'?'English':v==='watch'?'a movie':v==='eat'?'breakfast':v==='drink'?'juice':v==='read'?'a story':v==='write'?'a letter':v==='wash'?'the car':v==='do'?'homework':'basketball'}.`,[v,third(v),p,'will '+v],2,i))}return out}
+function makeFuture(){const out=[];const times=['tomorrow','next Monday','tonight','next week','this weekend','soon','next month','after school','later','in the future'];for(let i=0;i<200;i++){const s=subjects[i%10],v=verbs[Math.floor(i/10)%10];out.push(q(`${s.s} ___ ${v==='go'?'to Taipei':v==='study'?'English':v==='watch'?'a movie':v==='eat'?'dinner':v==='drink'?'some water':v==='read'?'the book':v==='write'?'to Grandma':v==='wash'?'the car':v==='do'?'the work':'basketball'} ${times[i%10]}.`,['will '+v,past(v),third(v),s.be+' '+ing(v)],0,i))}return out}
+function makeContinuous(){const out=[];for(let i=0;i<200;i++){const s=subjects[i%10],v=verbs[Math.floor(i/10)%10],ans=s.be+' '+ing(v);out.push(q(`${i<50?'Look!':'Right now,'} ${s.s.toLowerCase()} ___ ${v==='go'?'home':v==='study'?'English':v==='watch'?'TV':v==='eat'?'lunch':v==='drink'?'milk':v==='read'?'a book':v==='write'?'a note':v==='wash'?'the dishes':v==='do'?'homework':'basketball'}.`,[v,past(v),ans,'will '+v],2,i))}return out}
 function makePrepositions(){
   const patterns=[
     ['The book is ___ the desk.','on'],['The cat is ___ the box.','in'],['The ball is ___ the chair.','under'],['The lamp is ___ the sofa.','beside'],['Tom sits ___ Amy and Ben.','between'],
@@ -55,7 +55,7 @@ function makePrepositions(){
     ['The party is ___ Friday night.','on'],['It is cold ___ winter.','in'],['Dad comes home ___ six.','at'],['School starts ___ September.','in'],['We travel ___ summer.','in']
   ];
   const all=['on','in','under','beside','between','across from','behind','in front of','at','from'];const out=[];
-  for(let i=0;i<100;i++){const [text,ans]=patterns[i%20],suffix=i<20?'':` (${['A','B','C','D','E'][Math.floor(i/20)]})`;const distract=all.filter(x=>x!==ans).slice((i*3)%7,(i*3)%7+3);while(distract.length<3)distract.push(all[(i+distract.length)%all.length]);const opts=shuffle([ans,...distract.slice(0,3)]);out.push(q(text+suffix,opts,opts.indexOf(ans),i))}return out
+  for(let i=0;i<200;i++){const [text,ans]=patterns[i%20],suffix=i<20?'':` (${String.fromCharCode(65+Math.floor(i/20))})`;const distract=all.filter(x=>x!==ans).slice((i*3)%7,(i*3)%7+3);while(distract.length<3)distract.push(all[(i+distract.length)%all.length]);const opts=shuffle([ans,...distract.slice(0,3)]);out.push(q(text+suffix,opts,opts.indexOf(ans),i))}return out
 }
 function makeWh(){
   const kinds=[
@@ -64,9 +64,9 @@ function makeWh(){
   ];
   const choices=['What','Where','When','Who','Why','How','How old','How many','How much','How often'];const out=[];
   const speakers=['Amy','Tom','Ben','Mary','Kevin','Lucy','Jack','Anna','Eric','Tina'];
-  for(let i=0;i<100;i++){const [text,ans]=kinds[i%10],prompt=`${speakers[Math.floor(i/10)]} asks, “${text}”`;const opts=shuffle([ans,...choices.filter(x=>x!==ans).slice((i*2)%6,(i*2)%6+3)]);out.push(q(prompt,opts,opts.indexOf(ans),i))}return out
+  for(let i=0;i<200;i++){const [text,ans]=kinds[i%10],prompt=`${speakers[Math.floor(i/10)%10]} asks, “${text}”`;const opts=shuffle([ans,...choices.filter(x=>x!==ans).slice((i*2)%6,(i*2)%6+3)]);out.push(q(prompt,opts,opts.indexOf(ans),i))}return out
 }
-function makeCan(){const out=[];for(let i=0;i<100;i++){const s=subjects[i%10],v=verbs[Math.floor(i/10)];if(i<50)out.push(q(`${s.s} ___ ${v} very well.`,['can','is','does','has'],0,i));else out.push(q(`${s.s} will ___ ${v} after more practice.`,['be able to','can to','able','could to'],0,i))}return out}
+function makeCan(){const out=[];for(let i=0;i<200;i++){const s=subjects[i%10],v=verbs[Math.floor(i/10)%10];if(i<50)out.push(q(`${s.s} ___ ${v} very well.`,['can','is','does','has'],0,i));else out.push(q(`${s.s} will ___ ${v} after more practice.`,['be able to','can to','able','could to'],0,i))}return out}
 function makeTags(){
   const rows=[
     ['You are ready',"aren't you",['are you',"don't you","isn't it"]],['She is a teacher',"isn't she",['is she',"doesn't she","aren't she"]],
@@ -75,7 +75,7 @@ function makeTags(){
     ['We will go',"won't we",["don't we","aren't we",'will we']],['He went home',"didn't he",["doesn't he","isn't he",'did he']],
     ['It is cute',"isn't it",["doesn't it",'is it',"aren't it"]],['They played well',"didn't they",["don't they","aren't they",'did they']]
   ];
-  const out=[];for(let i=0;i<100;i++){const row=rows[i%10],suffix=i<10?'':` ${['today','now','this week','at school','after class','every day','yesterday','last night','again','too'][Math.floor(i/10)]}`;const opts=shuffle([row[1],...row[2]]);out.push(q(`${row[0]}${suffix}, ___?`,opts,opts.indexOf(row[1]),i))}return out
+  const out=[];for(let i=0;i<200;i++){const row=rows[i%10],suffix=i<10?'':` ${['today','now','this week','at school','after class','every day','yesterday','last night','again','too'][Math.floor(i/10)%10]} ${Math.floor(i/100)+1}`;const opts=shuffle([row[1],...row[2]]);out.push(q(`${row[0]}${suffix}, ___?`,opts,opts.indexOf(row[1]),i))}return out
 }
 function makeCostTakeSpend(){
   const things=['book','bag','ticket','computer','T-shirt','bike','meal','camera','phone','trip'];
@@ -84,24 +84,41 @@ function makeCostTakeSpend(){
   const tasks=['clean the room','finish homework','walk to school','cook dinner','read the chapter','wash the car','build the model','write the report','practice the song','paint the picture'];
   const activities=['practicing English','reading','doing homework','playing basketball','cleaning','drawing','cooking','writing','studying science','helping Grandma'];
   const out=[];
-  for(let i=0;i<100;i++){
-    const mode=i%3,thing=things[i%10],time=times[Math.floor(i/10)];
-    if(mode===0)out.push(q(`At the ${places[Math.floor(i/10)]}, the ${thing} ___ ${100+(i%10)*100} dollars.`,['costs','spends','takes','pays'],0,i));
+  for(let i=0;i<200;i++){
+    const mode=i%3,thing=things[i%10],time=times[Math.floor(i/10)%10];
+    if(mode===0)out.push(q(`At the ${places[Math.floor(i/10)%10]}, the ${thing} ___ ${100+(i%10)*100} dollars.`,['costs','spends','takes','pays'],0,i));
     else if(mode===1)out.push(q(`It ___ me ${time} to ${tasks[i%10]}.`,['cost','spent','took','paid'],2,i));
     else out.push(q(`I ___ ${time} ${activities[i%10]}.`,['cost','spent','took','paid'],1,i));
   }
   return out
 }
 
-function expandTo200(bank){
-  const reverse=bank.map((row,i)=>{
-    const prompt=String(row[0]||'');
-    const choices=(row[1]||[]).map(opt=>prompt.includes('___')?prompt.replace('___',opt):prompt+' '+opt);
-    return q(`Which completed sentence is grammatically correct? “${prompt}”`,choices,row[2],100+(row[3]||i));
+function normalizeGrammarBank(bank,topicIndex){
+  const seen=new Set();
+  return bank.map((row,i)=>{
+    let [text,opts,answer,difficulty]=row;
+    opts=[...opts];
+    const correct=opts[answer];
+    const fallback=['am','is','are','be','do','does','did','will','can','has','have','was','were','on','in','at','under','What','Where','When','Who','Why','How'];
+    for(let j=0;j<opts.length;j++){
+      if(j===answer)continue;
+      const duplicate=opts.some((x,k)=>k!==j&&x===opts[j]&&(k===answer||k<j));
+      if(duplicate){
+        opts[j]=fallback.find(x=>x!==correct&&!opts.includes(x))||('choice '+(j+1));
+      }
+    }
+    const base=text.trim();
+    if(seen.has(base)){
+      const contexts=['At school','In class','During practice','For homework','In today’s lesson','During review','In the workbook','For this exercise','In the quiz','During English class'];
+      let n=1,candidate;
+      do{candidate=contexts[(i+n+topicIndex)%contexts.length]+': '+base+' ['+(Math.floor(i/10)+n)+']';n++}while(seen.has(candidate));
+      text=candidate;
+    }
+    seen.add(text.trim());
+    return [text,opts,answer,difficulty];
   });
-  return [...bank,...reverse];
 }
-const banks=[makeBe(),makePresent(),makePast(),makeFuture(),makeContinuous(),makePrepositions(),makeWh(),makeCan(),makeTags(),makeCostTakeSpend()].map(expandTo200);
+const banks=[makeBe(),makePresent(),makePast(),makeFuture(),makeContinuous(),makePrepositions(),makeWh(),makeCan(),makeTags(),makeCostTakeSpend()].map(normalizeGrammarBank);
 window.grammarBanksV121=banks;
 grammarMap.forEach((topic,i)=>{topicBanks[topic]=banks[i]});
 const starKey='eq121GrammarStars';
@@ -113,8 +130,8 @@ let grammarRun=false;
 makeQuiz=function(topic){
   const pool=topicBanks[topic]||topicBanks[0];
   if(!grammarSet.has(topic))return shuffle(pool).slice(0,10).map(row=>{const opts=row[1].map((text,j)=>({text,ok:j===row[2]}));return {text:row[0],opts:shuffle(opts)}});
-  const star=getStar(topic),band=Math.min(4,star),start=band*40;
-  return shuffle(pool.slice(start,start+40)).slice(0,10).sort((a,b)=>(a[3]||0)-(b[3]||0)).map(row=>{
+  const star=getStar(topic),band=Math.min(4,star),start=band*20;
+  return shuffle(pool.slice(start,start+20)).slice(0,10).sort((a,b)=>(a[3]||0)-(b[3]||0)).map(row=>{
     const opts=row[1].map((text,j)=>({text,ok:j===row[2]}));return {text:row[0],opts:shuffle(opts),difficulty:row[3]}
   });
 };
