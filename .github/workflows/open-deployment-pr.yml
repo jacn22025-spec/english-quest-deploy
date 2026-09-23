@@ -41,4 +41,4 @@ jobs:
             --base main \
             --head "${branch}" \
             --title "Deploy verified English Quest build" \
-            --body "Generated from the private source repository only after Guardrails, artifact validation, and mobile/desktop Playwright passed. Review and merge manually; this workflow never writes directly to main."
+            --body "Generated from the private source repository only after Guardrails, artifact validation, and mobile/desktop Playwright passed. After trusted validation passes, this PR is automatically merged; this workflow never writes directly to main."
