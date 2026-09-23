@@ -51,6 +51,16 @@ jobs:
           base_sha="$(gh api "repos/${GH_REPO}/git/ref/heads/main" --jq '.object.sha')"
           test "$(jq -r '.base.sha' <<<"${pr}")" = "${base_sha}"
 
+          # Ignore older deploy PRs when a newer deployment candidate is open.
+          candidate_run="${RUN_HEAD_REF#deploy/private-}"
+          candidate_run="${candidate_run%-*}"
+          latest_run="$(gh pr list --repo "${GH_REPO}" --state open --base main --limit 1000 --json headRefName \
+            --jq '[.[].headRefName | capture("^deploy/private-(?<run>[0-9]+)-[0-9]+$")? | .run | tonumber] | max // 0')"
+          if (( 10#${candidate_run} < latest_run )); then
+            echo "A newer deployment PR exists; refusing stale candidate ${RUN_HEAD_REF}."
+            exit 1
+          fi
+
           echo "pr_number=${number}" >> "${GITHUB_OUTPUT}"
           echo "head_sha=${RUN_HEAD_SHA}" >> "${GITHUB_OUTPUT}"
           echo "base_sha=${base_sha}" >> "${GITHUB_OUTPUT}"
@@ -201,4 +211,13 @@ jobs:
           jq -e --arg repo "${GH_REPO}" --arg sha "${HEAD_SHA}" --arg base "${BASE_SHA}" \
             '.state=="open" and .draft==false and .base.ref=="main" and .base.sha==$base and .base.repo.full_name==$repo and .head.repo.full_name==$repo and .head.sha==$sha and (.head.ref|test("^deploy/private-[0-9]+-[0-9]+$"))' \
             <<<"${pr}" >/dev/null
+          branch="$(jq -r '.head.ref' <<<"${pr}")"
+          candidate_run="${branch#deploy/private-}"
+          candidate_run="${candidate_run%-*}"
+          latest_run="$(gh pr list --repo "${GH_REPO}" --state open --base main --limit 1000 --json headRefName \
+            --jq '[.[].headRefName | capture("^deploy/private-(?<run>[0-9]+)-[0-9]+$")? | .run | tonumber] | max // 0')"
+          if (( 10#${candidate_run} < latest_run )); then
+            echo "A newer deployment PR appeared after validation; refusing stale candidate ${branch}."
+            exit 1
+          fi
           gh pr merge "${PR_NUMBER}" --repo "${GH_REPO}" --merge --match-head-commit "${HEAD_SHA}"
