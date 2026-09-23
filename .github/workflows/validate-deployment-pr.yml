@@ -171,18 +171,24 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
-      contents: write
-      pull-requests: write
+      contents: read
+      pull-requests: read
     steps:
       - name: Recheck main and merge only the exact validated head
         env:
-          GH_TOKEN: ${{ github.token }}
+          # GITHUB_TOKEN merges suppress subsequent main push workflows.
+          # Require a scoped GitHub App/PAT so Pages and Smoke will run.
+          GH_TOKEN: ${{ secrets.PUBLIC_DEPLOY_AUTOMATION_TOKEN }}
           GH_REPO: ${{ github.repository }}
           PR_NUMBER: ${{ needs.validate.outputs.pr_number }}
           HEAD_SHA: ${{ needs.validate.outputs.head_sha }}
           BASE_SHA: ${{ needs.validate.outputs.base_sha }}
         run: |
           set -euo pipefail
+          if [ -z "${GH_TOKEN}" ]; then
+            echo "PUBLIC_DEPLOY_AUTOMATION_TOKEN is missing; refusing automatic merge to preserve Pages and post-deploy Smoke triggers."
+            exit 1
+          fi
           [[ "${PR_NUMBER}" =~ ^[0-9]+$ ]]
           [[ "${HEAD_SHA}" =~ ^[0-9a-f]{40}$ ]]
           [[ "${BASE_SHA}" =~ ^[0-9a-f]{40}$ ]]
