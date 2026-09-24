@@ -1,3 +1,4 @@
+# Test trusted PR head check; do not merge this branch.
 name: Validate deployment PR
 
 # This workflow is loaded from the trusted default branch. A bot-created PR
