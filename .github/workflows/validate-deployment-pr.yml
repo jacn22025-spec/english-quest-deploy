@@ -8,6 +8,11 @@ on:
     paths:
       - '.github/workflows/validate-deployment-pr.yml'
       - '.github/workflows/auto-merge-verified-deployment.yml'
+  pull_request_target:
+    branches: [main]
+    paths:
+      - '.github/workflows/**'
+    types: [opened, synchronize, reopened]
   workflow_run:
     workflows: ["Open verified deployment PR"]
     types: [completed]
@@ -47,10 +52,7 @@ jobs:
               ['git', 'diff', '--name-only', '--diff-filter=ACDMRT', f'{__import__("os").environ["BASE_SHA"]}...HEAD'],
               text=True,
           ).splitlines())
-          expected = sorted([
-              '.github/workflows/auto-merge-verified-deployment.yml',
-              '.github/workflows/validate-deployment-pr.yml',
-          ])
+          expected = ['.github/workflows/validate-deployment-pr.yml']
           if changed != expected:
               raise SystemExit(f'Unexpected infrastructure PR file scope: {changed!r}')
 
@@ -62,23 +64,95 @@ jobs:
               'Main changed since validation; refusing merge.',
               'A newer deployment PR appeared after validation',
               'persist-credentials: false',
+              'pull_request_target:',
+              'Verified Public PR CI',
+              'checks: write',
           ]
           missing = [item for item in required if item not in workflow]
           if missing:
               raise SystemExit(f'Missing fail-closed controls: {missing!r}')
-          forbidden_trigger = 'pull_request' + '_target:'
-          if forbidden_trigger in workflow:
-              raise SystemExit('pull_request_target is forbidden for deployment validation')
           if pathlib.Path('.github/workflows/auto-merge-verified-deployment.yml').exists():
               raise SystemExit('Duplicate legacy auto-merge workflow still exists')
           print('Deployment workflow safety checks passed.')
           PY
+
+
+  required-infrastructure:
+    if: ${{ github.event_name == 'pull_request_target' }}
+    name: Verify infrastructure PR from trusted main
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    permissions:
+      contents: read
+      pull-requests: read
+      checks: write
+    steps:
+      - name: Start required head check
+        id: gate
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          test "${HEAD_REPO}" = "${GH_REPO}"
+          [[ "${HEAD_SHA}" =~ ^[0-9a-f]{40}$ ]]
+          id="$(gh api -X POST "repos/${GH_REPO}/check-runs" -f name="Verified Public PR CI" -f head_sha="${HEAD_SHA}" -f status=in_progress --jq '.id')"
+          echo "check_id=${id}" >> "${GITHUB_OUTPUT}"
+      - name: Checkout exact proposal without persisted credentials
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Verify latest main and infrastructure scope
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+          test "$(gh api "repos/${GH_REPO}/git/ref/heads/main" --jq '.object.sha')" = "${BASE_SHA}"
+          test "$(git rev-parse HEAD)" = "${HEAD_SHA}"
+          git merge-base --is-ancestor "${BASE_SHA}" "${HEAD_SHA}"
+          python3 <<'PY'
+          import os, pathlib, subprocess
+          changed = sorted(subprocess.check_output(
+              ['git','diff','--name-only',f'{os.environ["BASE_SHA"]}...{os.environ["HEAD_SHA"]}'],
+              text=True).splitlines())
+          if changed != ['.github/workflows/validate-deployment-pr.yml']:
+              raise SystemExit(f'Unexpected infrastructure files: {changed!r}')
+          workflow = pathlib.Path(changed[0]).read_text()
+          required = ['workflow_run:', 'pull_request_target:', 'checks: write',
+                      'Verified Public PR CI', 'source_commit_sha',
+                      'persist-credentials: false', '--match-head-commit',
+                      'Main changed since validation; refusing merge.']
+          if missing := [item for item in required if item not in workflow]:
+              raise SystemExit(f'Missing deployment controls: {missing!r}')
+          PY
+      - name: Publish required head check
+        if: ${{ always() && steps.gate.outputs.check_id != '' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          CHECK_ID: ${{ steps.gate.outputs.check_id }}
+          JOB_RESULT: ${{ job.status }}
+        run: |
+          conclusion=failure
+          if [ "${JOB_RESULT}" = success ]; then conclusion=success; fi
+          gh api -X PATCH "repos/${GH_REPO}/check-runs/${CHECK_ID}" -f status=completed -f conclusion="${conclusion}" >/dev/null
 
   validate:
     if: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' }}
     name: Verify deployment manifest and public-only files
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      contents: read
+      pull-requests: read
+      checks: write
     outputs:
       pr_number: ${{ steps.identify.outputs.pr_number }}
       head_sha: ${{ steps.identify.outputs.head_sha }}
@@ -125,6 +199,17 @@ jobs:
 
       # The token is read-only and is not kept in the checkout. All shell and
       # Node code below comes from this trusted workflow, never from PR files.
+      - name: Start required PR check on exact head
+        id: gate
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          HEAD_SHA: ${{ steps.identify.outputs.head_sha }}
+        run: |
+          set -euo pipefail
+          id="$(gh api -X POST "repos/${GH_REPO}/check-runs" -f name="Verified Public PR CI" -f head_sha="${HEAD_SHA}" -f status=in_progress --jq '.id')"
+          echo "check_id=${id}" >> "${GITHUB_OUTPUT}"
+
       - name: Checkout exact proposed tree without persisted credentials
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
@@ -231,6 +316,18 @@ jobs:
             `Deployment validation passed for ${manifest.source_commit_sha}: ${files.length} runtime files match the signed manifest.`
           );
           NODE
+
+      - name: Publish required PR check
+        if: ${{ always() && steps.gate.outputs.check_id != '' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          CHECK_ID: ${{ steps.gate.outputs.check_id }}
+          JOB_RESULT: ${{ job.status }}
+        run: |
+          conclusion=failure
+          if [ "${JOB_RESULT}" = success ]; then conclusion=success; fi
+          gh api -X PATCH "repos/${GH_REPO}/check-runs/${CHECK_ID}" -f status=completed -f conclusion="${conclusion}" >/dev/null
 
   merge:
     needs: validate
