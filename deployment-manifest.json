@@ -2,10 +2,10 @@
   "schema": 1,
   "source": "private-vite-build",
   "sourceRepository": "jacn22025-spec/english-quest-private-backup",
-  "sourceCommit": "4241ac5341efd971dba08c5c27cc924f150da552",
-  "source_commit_sha": "4241ac5341efd971dba08c5c27cc924f150da552",
-  "buildRunId": "36017277775",
-  "generatedAt": "2026-09-24T15:03:17.079Z",
+  "sourceCommit": "c3ecb41c98e279b0494156f1edd2e1babe6811c7",
+  "source_commit_sha": "c3ecb41c98e279b0494156f1edd2e1babe6811c7",
+  "buildRunId": "36143432153",
+  "generatedAt": "2026-09-25T13:49:49.949Z",
   "files": {
     ".nojekyll": {
       "bytes": 0,
@@ -75,41 +75,9 @@
       "bytes": 60977,
       "sha256": "d4fe8b56a4916fcd86a2f3a324dbd57996494840ff9fd261e2018427752210c5"
     },
-    "assets/mix-lab/base-clean-no-left-shorts-v1.webp": {
-      "bytes": 117492,
-      "sha256": "056de22803608aa717c4c3ba8cb4f9193320f2246a695101eba842abeea663e4"
-    },
-    "assets/mix-lab/bottom-pink-level-v1.png": {
-      "bytes": 434159,
-      "sha256": "e6fc35d96eb94150bb651ad2afe4b45b357aefaee36623a2f69bfaad6eb713bf"
-    },
     "assets/mix-lab/bottom-pink-shoes-loafers-fused-v1.webp": {
       "bytes": 103908,
       "sha256": "7b6bc7d66d6f4e8e5a18ab730e33e4438336e15a861d20ea8679f4ab1bcc342e"
-    },
-    "assets/mix-lab/bottom-pink-v1.png": {
-      "bytes": 155833,
-      "sha256": "a9ddbf9c380b8d248cde0f0886e4f8f36c1da4a7e674ba1522e2c8eefed4be03"
-    },
-    "assets/mix-lab/bottom-pink-v2.png": {
-      "bytes": 155818,
-      "sha256": "245027ec0a85f4bdb76793a51922490ad0e576b5cc3ed0a5f300e850164687cb"
-    },
-    "assets/mix-lab/bottom-pink-v3.png": {
-      "bytes": 155839,
-      "sha256": "5c7e9ce764e773ffc877f0126629c83cf2ff1648c4904991dd5bee2d4d3ebfb3"
-    },
-    "assets/mix-lab/bottom-pink-v5.png": {
-      "bytes": 426119,
-      "sha256": "1f1212e6c2530fe61f91589eb69e41fb1432e8c7d95f6b15021402cd5cd09309"
-    },
-    "assets/mix-lab/bottom-pink-v6.png": {
-      "bytes": 428528,
-      "sha256": "453d77542f52e23604f83ddce8edf89ad4977e049a185eeabc344985cb49f59c"
-    },
-    "assets/mix-lab/bottom-pink-v7.png": {
-      "bytes": 430694,
-      "sha256": "f7dcd19332a0414b26ac1c0a624c5cc62bbc8baa53d47e4ca66cb32c098f5600"
     },
     "assets/mix-lab/full-outfit-bag-tote-fused-v1.webp": {
       "bytes": 113048,
@@ -122,14 +90,6 @@
     "assets/mix-lab/full-outfit-pearl-necklace-fused-v1.webp": {
       "bytes": 111930,
       "sha256": "8a0d0fda3b7e8b4b12fa9b09c4443439e06acb77e35558d93ac0f32434c4e5ce"
-    },
-    "assets/mix-lab/shoes-loafers-v1.png": {
-      "bytes": 83729,
-      "sha256": "b7d004aeea51851241302aed66780f61e8dc9d40644a53df495ea76d5acecf8b"
-    },
-    "assets/mix-lab/shoes-loafers-v2.png": {
-      "bytes": 96515,
-      "sha256": "cbb55e7503671d4e62153ea85bb13ac0470106f4768bbda2ffb6ae374006a763"
     },
     "assets/mix-lab/top-academy-bottom-denim-shoes-loafers-bag-tote-fused-v1.webp": {
       "bytes": 123308,
@@ -227,10 +187,6 @@
       "bytes": 109560,
       "sha256": "d4cee021634b1ae5f660b3d8318a869ab3e484b6208a686e0549575924b2bd2b"
     },
-    "assets/mix-lab/top-cream-bottom-pink-shoes-loafers-fused-preview-v1.png": {
-      "bytes": 786444,
-      "sha256": "a8ad81588c99cc0f362b903940d5f85a5753da49e95f9d99fc455f375de5f202"
-    },
     "assets/mix-lab/top-cream-bottom-pink-shoes-loafers-fused-preview-v1.webp": {
       "bytes": 117196,
       "sha256": "f5f3610e2cf183c4f10bea4957f6d14de2164e0bd1d8c966c40674f29a6b072f"
@@ -242,14 +198,6 @@
     "assets/mix-lab/top-cream-shoes-loafers-fused-v1.webp": {
       "bytes": 106054,
       "sha256": "d801670c2c687bc06e4503ff8f256bd8a8367a970034c63fc3c26a3b73f3e342"
-    },
-    "assets/mix-lab/top-cream-v1.png": {
-      "bytes": 225884,
-      "sha256": "1087e5d0e445d5fbd6b0415c0883e6d498f65cba448e9741073b06c4ffc8a35d"
-    },
-    "assets/mix-lab/top-cream-waist-foreground-v1.png": {
-      "bytes": 786444,
-      "sha256": "45022af030d1d58971b6443c0be848953db2881e23c72b33300efcb339db52dc"
     },
     "assets/mix-lab/top-hoodie-bottom-blackSkirt-fused-v1.webp": {
       "bytes": 117568,
