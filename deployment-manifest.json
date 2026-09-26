@@ -2,10 +2,10 @@
   "schema": 1,
   "source": "private-vite-build",
   "sourceRepository": "jacn22025-spec/english-quest-private-backup",
-  "sourceCommit": "d2b5458143d20b3cd803658f05e253ec32677762",
-  "source_commit_sha": "d2b5458143d20b3cd803658f05e253ec32677762",
-  "buildRunId": "36233177855",
-  "generatedAt": "2026-09-26T09:34:23.070Z",
+  "sourceCommit": "490faffe48dfaebbdaf9d5c0a58df7a5fe21d679",
+  "source_commit_sha": "490faffe48dfaebbdaf9d5c0a58df7a5fe21d679",
+  "buildRunId": "36234256840",
+  "generatedAt": "2026-09-26T09:56:20.462Z",
   "files": {
     ".nojekyll": {
       "bytes": 0,
@@ -28,8 +28,8 @@
       "sha256": "0ffb03f2bc79ac092914e088bca97bb55d8489600c1f8a1eb2464a86cecfd1a3"
     },
     "assets/companion-v120.bundle.js": {
-      "bytes": 657651,
-      "sha256": "4233d7d507877af412e96f428ea0956948642fdb7386ec7490e70cb226803cd6"
+      "bytes": 658305,
+      "sha256": "a51929b75c8481d9a6999bfb6ed52555e13b92c6d74e5dff441a5c00b58b64c1"
     },
     "assets/game-hub-v123.js": {
       "bytes": 18945,
