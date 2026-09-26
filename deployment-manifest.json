@@ -2,10 +2,10 @@
   "schema": 1,
   "source": "private-vite-build",
   "sourceRepository": "jacn22025-spec/english-quest-private-backup",
-  "sourceCommit": "c7259e5e96e502b2d459de80330afe34b40fbb90",
-  "source_commit_sha": "c7259e5e96e502b2d459de80330afe34b40fbb90",
-  "buildRunId": "36211159225",
-  "generatedAt": "2026-09-26T02:16:40.671Z",
+  "sourceCommit": "670a470437b07ba77f815642cb7bf3616f49cf5b",
+  "source_commit_sha": "670a470437b07ba77f815642cb7bf3616f49cf5b",
+  "buildRunId": "36231204212",
+  "generatedAt": "2026-09-26T08:55:10.982Z",
   "files": {
     ".nojekyll": {
       "bytes": 0,
@@ -53,7 +53,11 @@
     },
     "assets/home-original-poodle.css": {
       "bytes": 230,
-      "sha256": "14f35198a9b0a7109ca7610bf75d4d4899e2b67c261909da731263d89850704f"
+      "sha256": "e484529503ef8ee8a2ae412d8da78d2d9c96cc0da9be98432bf82a59cbbe4ff6"
+    },
+    "assets/home-v127.png": {
+      "bytes": 2485602,
+      "sha256": "8d0043665b1113869be668ed518b4efea712dbeefa6c30f3833334cef190c2d8"
     },
     "assets/home-v95.jpeg": {
       "bytes": 443946,
