@@ -400,9 +400,8 @@ function cleanGrammarArt(){
 function layoutGrammarArt(){
   const box=document.getElementById('grammarForest119'),img=box?.querySelector('img.quest119__art');
   if(!box||box.hidden||!img||img.dataset.eqCleanGrammar!=='1'||!img.complete||!img.naturalWidth)return;
-  const nav=document.getElementById(NAV_ID),available=Math.max(1,(nav&&visible(nav)?nav.getBoundingClientRect().top:innerHeight)-6),ratio=img.naturalWidth/img.naturalHeight;
-  const w=Math.min(box.clientWidth,available*ratio),h=w/ratio;
-  const values={'--eq-grammar-art-width':w+'px','--eq-grammar-art-height':h+'px','--eq-grammar-art-left':((box.clientWidth-w)/2)+'px','--eq-grammar-art-top':(available-h)+'px'};
+  const w=box.clientWidth,h=box.clientHeight;
+  const values={'--eq-grammar-art-width':w+'px','--eq-grammar-art-height':h+'px','--eq-grammar-art-left':'0px','--eq-grammar-art-top':'0px'};
   for(const [key,value] of Object.entries(values))if(box.style.getPropertyValue(key)!==value)box.style.setProperty(key,value);
 }
 function cleanHubArt(){
