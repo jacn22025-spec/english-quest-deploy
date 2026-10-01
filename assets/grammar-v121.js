@@ -120,7 +120,8 @@ function normalizeGrammarBank(bank,topicIndex){
 }
 const banks=[makeBe(),makePresent(),makePast(),makeFuture(),makeContinuous(),makePrepositions(),makeWh(),makeCan(),makeTags(),makeCostTakeSpend()].map(normalizeGrammarBank);
 window.grammarBanksV121=banks;
-grammarMap.forEach((topic,i)=>{topicBanks[topic]=banks[i]});
+const legacyTopicBanks=(typeof topicBanks!=='undefined'&&topicBanks)?topicBanks:window.topicBanks;
+if(legacyTopicBanks)grammarMap.forEach((topic,i)=>{legacyTopicBanks[topic]=banks[i]});
 const starKey='eq121GrammarStars';
 const loadStars=()=>{try{return JSON.parse(localStorage.getItem(starKey)||'{}')}catch{return {}}};
 const getStar=topic=>Math.max(0,Math.min(5,Number(loadStars()[topic]||0)));
@@ -128,7 +129,7 @@ const saveStar=(topic,value)=>{const data=loadStars();data[topic]=Math.max(0,Mat
 let grammarRun=false;
 
 makeQuiz=function(topic){
-  const pool=topicBanks[topic]||topicBanks[0];
+  const pool=(legacyTopicBanks&&legacyTopicBanks[topic])||(legacyTopicBanks&&legacyTopicBanks[0])||[];
   if(!grammarSet.has(topic))return shuffle(pool).slice(0,10).map(row=>{const opts=row[1].map((text,j)=>({text,ok:j===row[2]}));return {text:row[0],opts:shuffle(opts)}});
   const star=getStar(topic),band=Math.min(4,star),start=band*20;
   return shuffle(pool.slice(start,start+20)).slice(0,10).sort((a,b)=>(a[3]||0)-(b[3]||0)).map(row=>{
@@ -136,7 +137,7 @@ makeQuiz=function(topic){
   });
 };
 const oldStartQuiz=startQuiz;
-startQuiz=function(topic){grammarRun=grammarSet.has(Number(topic));return oldStartQuiz(Number(topic))};
+startQuiz=function(topic){grammarRun=grammarSet.has(Number(topic));const result=oldStartQuiz(Number(topic));refreshReturnLabel();return result};
 const oldFinish=finish;
 finish=function(){
   if(!grammarRun||!grammarSet.has(quiz.topic))return oldFinish();
@@ -149,7 +150,7 @@ finish=function(){
   }
   save();score.textContent=quiz.score+'/10';pass.textContent=passed?'通過 ✓':'尚未通過';
   reward.textContent=passed?(newStar>oldStar?`答對 ${quiz.score} 題，升為 ${'★'.repeat(newStar)}${'☆'.repeat(5-newStar)}`:'已達五星，獲得 50 金幣'):`需答對至少 8 題才可升星（本次 ${quiz.score} 題）`;
-  go('result');refreshLabels();grammarRun=false;
+  go('result');refreshLabels();refreshReturnLabel();grammarRun=false;
 };
 
 function refreshLabels(){
@@ -161,8 +162,22 @@ function refreshLabels(){
   let label=screen.querySelector('.grammar121Level');if(!label){label=document.createElement('div');label.className='grammar121Level';screen.appendChild(label)}
   label.textContent='每關 10 題・答對 8 題升一星・題目由簡到難';
 }
+function returnToGrammarForest(e){
+  const button=e.target.closest?.('#quiz [data-go="map"],#result [data-go="map"]');
+  if(!button||!quiz||!grammarSet.has(Number(quiz.topic)))return;
+  const entrance=document.querySelector('#map [data-q119="grammar"]');
+  if(!entrance)return;
+  e.preventDefault();e.stopImmediatePropagation();entrance.click();
+}
+document.addEventListener('click',returnToGrammarForest,true);
+function refreshReturnLabel(){
+  const grammar=typeof quiz!=='undefined'&&quiz&&grammarSet.has(Number(quiz.topic));
+  document.querySelectorAll('#quiz [data-go="map"],#result [data-go="map"]').forEach(button=>{
+    button.textContent=grammar?'‹ 返回文法森林':'‹ 返回地圖';
+  });
+}
 function init(){refreshLabels();const screen=document.getElementById('grammarForest119');if(screen)new MutationObserver(refreshLabels).observe(screen,{childList:true,subtree:false})}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 
-(()=>{const s=document.createElement('script');s.src='assets/navigation-map-v122.js';document.head.appendChild(s)})();
+(()=>{const s=document.createElement('script');s.src='assets/navigation-map-v122.js';s.addEventListener('load',()=>{const shell=document.createElement('script');shell.src='assets/mobile-app-shell-poc.js';document.head.appendChild(shell)},{once:true});document.head.appendChild(s)})();
