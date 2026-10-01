@@ -410,8 +410,8 @@ function cleanHubArt(){
     gameHub123:'assets/mobile-shell/game-hub-no-nav.png',
     grammarNotes123:'assets/mobile-shell/grammar-notes-no-nav.png',
     wrongBook123:'assets/mobile-shell/wrong-book-no-nav.png',
-    grammarExam123:'assets/mobile-shell/grammar-quiz-no-nav.png',
-    vocabExam123:'assets/mobile-shell/vocabulary-quiz-no-nav.png'
+    grammarExam123:'assets/mobile-shell/grammar-exam-selection.png',
+    vocabExam123:'assets/mobile-shell/vocabulary-exam-selection.png'
   };
   for(const [id,src] of Object.entries(artwork)){
     const img=document.querySelector('#'+id+' img.hub123Art');

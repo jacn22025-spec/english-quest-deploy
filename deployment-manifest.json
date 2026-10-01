@@ -2,10 +2,10 @@
   "schema": 1,
   "source": "private-vite-build",
   "sourceRepository": "jacn22025-spec/english-quest-private-backup",
-  "sourceCommit": "8a4b79a07d012ee4d193d127a8afc589f4e826da",
-  "source_commit_sha": "8a4b79a07d012ee4d193d127a8afc589f4e826da",
-  "buildRunId": "36805955023",
-  "generatedAt": "2026-10-01T02:28:07.599Z",
+  "sourceCommit": "afbe12173bf7ab312fa636b58f96ed1a778b1293",
+  "source_commit_sha": "afbe12173bf7ab312fa636b58f96ed1a778b1293",
+  "buildRunId": "36812051864",
+  "generatedAt": "2026-10-01T03:46:48.087Z",
   "files": {
     ".nojekyll": {
       "bytes": 0,
@@ -64,8 +64,8 @@
       "sha256": "4454076b21ea64cd5084ea51f858e7d06717faa658255f9ad8eee4984b5d4b82"
     },
     "assets/game-hub-v123.js": {
-      "bytes": 19137,
-      "sha256": "6af0fcd1de696c12f0c1f15275b205365aab21dda4261ad55b27f697a15d16ae"
+      "bytes": 23050,
+      "sha256": "db5aa646e0c1421e6975e93bdced152d5d867adde8715ef575c543e793522475"
     },
     "assets/game-hub-v123.png": {
       "bytes": 3751545,
@@ -372,8 +372,8 @@
       "sha256": "3b5d1aa0202949332b0e4b6581e328d10a221124e6a6012989a45fd3099cb2ec"
     },
     "assets/mobile-app-shell-poc.js": {
-      "bytes": 51737,
-      "sha256": "3a942bb77f92435c9d4fa7f37189dabf001a439e6eb62ed65e0b9582794a0a16"
+      "bytes": 51743,
+      "sha256": "f1ba0d78cd4714343fce6de479cd18c3b21ca472bcb852435da3843597f703ca"
     },
     "assets/mobile-shell/.gitkeep": {
       "bytes": 1,
@@ -398,6 +398,10 @@
     "assets/mobile-shell/game-no-nav.png": {
       "bytes": 2668602,
       "sha256": "0ea18e64fb4aaeaeb6a2885d2dc58c4f81265676d9b49e612c1e42de4093d6ee"
+    },
+    "assets/mobile-shell/grammar-exam-selection.png": {
+      "bytes": 3369231,
+      "sha256": "4af047301212dd04dc7624bc51df4469edcca30f7c25144bc891629530b33172"
     },
     "assets/mobile-shell/grammar-forest-no-nav.png": {
       "bytes": 2870356,
@@ -430,6 +434,10 @@
     "assets/mobile-shell/shop-no-nav.png": {
       "bytes": 2595015,
       "sha256": "91c2a45f29372f19c001b1af61e2b04850a5625e0826b605d2f50577888901e9"
+    },
+    "assets/mobile-shell/vocabulary-exam-selection.png": {
+      "bytes": 3497648,
+      "sha256": "c2bede5e4d130d5f55e79e20e624ea7bd5e1071c70fe0afc53a6fab650e49253"
     },
     "assets/mobile-shell/vocabulary-quiz-no-nav.png": {
       "bytes": 2280890,
