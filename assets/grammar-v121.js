@@ -1,6 +1,6 @@
 (()=>{
 'use strict';
-const grammarMap=[1,2,3,4,5,6,7,8,9,12];
+const grammarMap=[1,2,3,4,5,6,7,13,9,12];
 const grammarSet=new Set(grammarMap);
 const style=document.createElement('style');
 style.id='grammar-v121-style';
@@ -120,8 +120,11 @@ function normalizeGrammarBank(bank,topicIndex){
 }
 const banks=[makeBe(),makePresent(),makePast(),makeFuture(),makeContinuous(),makePrepositions(),makeWh(),makeCan(),makeTags(),makeCostTakeSpend()].map(normalizeGrammarBank);
 window.grammarBanksV121=banks;
+function pastContinuousBank(){const subjects=[['I','was'],['You','were'],['He','was'],['She','was'],['It','was'],['We','were'],['They','were'],['Tom','was'],['Amy','was'],['My friends','were']],verbs=[['study','studying','English'],['read','reading','a book'],['watch','watching','TV'],['play','playing','basketball'],['eat','eating','dinner'],['write','writing','an email'],['cook','cooking','in the kitchen'],['sleep','sleeping','on the sofa'],['walk','walking','home'],['do','doing','homework']];return Array.from({length:100},(_,i)=>{const [s,be]=subjects[i%10],[v,form,object]=verbs[Math.floor(i/10)],ans=`${be} ${form}`,opts=[ans,`${be==='was'?'were':'was'} ${form}`,`${s==='I'?'am':'is'} ${form}`,`${v}ed`];return [`At ${2+i%8}:00 yesterday, ${s.toLowerCase()} ___ ${object}.`,opts,0,i]})}
+window.pastContinuousGrammarBank=pastContinuousBank();
+if(typeof topics!=='undefined')topics[13]='過去進行式';
 const legacyTopicBanks=(typeof topicBanks!=='undefined'&&topicBanks)?topicBanks:window.topicBanks;
-if(legacyTopicBanks)grammarMap.forEach((topic,i)=>{legacyTopicBanks[topic]=banks[i]});
+if(legacyTopicBanks){[1,2,3,4,5,6,7,8,9,12].forEach((topic,i)=>{legacyTopicBanks[topic]=banks[i]});legacyTopicBanks[13]=window.pastContinuousGrammarBank;}
 const starKey='eq121GrammarStars';
 const loadStars=()=>{try{return JSON.parse(localStorage.getItem(starKey)||'{}')}catch{return {}}};
 const getStar=topic=>Math.max(0,Math.min(5,Number(loadStars()[topic]||0)));
@@ -156,7 +159,7 @@ finish=function(){
 function refreshLabels(){
   const screen=document.getElementById('grammarForest119');if(!screen)return;
   screen.querySelectorAll('[data-q119-topic]').forEach((button,i)=>{
-    const topic=grammarMap[i],star=getStar(topic),name=button.getAttribute('aria-label')?.replace(/^開始/,'')||'';
+    const topic=grammarMap[i],star=getStar(topic),name=['Be動詞與代名詞','現在簡單式','過去簡單式','未來簡單式','現在進行式','介係詞','WH Question','過去進行式','附加問句','cost・take・spend'][i];
     button.dataset.q119Topic=String(topic);button.setAttribute('aria-label',`${name}，目前 ${star} 星，開始 10 題挑戰`);
   });
   let label=screen.querySelector('.grammar121Level');if(!label){label=document.createElement('div');label.className='grammar121Level';screen.appendChild(label)}

@@ -79,18 +79,19 @@ html.eq-app-shell-poc #vocabTown119 .townIrregular{left:calc(var(--eq-vocab-art-
 html.eq-app-shell-poc #vocabTown119 .quest119__back{top:calc(var(--eq-vocab-art-top,0px) + var(--eq-vocab-art-height,100dvh) * .02)!important;left:calc(var(--eq-vocab-art-left,0px) + var(--eq-vocab-art-width,100%) * .035)!important}
 html.eq-app-shell-poc #grammarForest119 .eq-grammar-backdrop{position:absolute!important;inset:0 0 auto!important;width:100%!important;height:var(--eq-grammar-art-top,0px)!important;object-fit:cover!important;object-position:center top!important;filter:none!important;opacity:0!important;pointer-events:none!important}
 html.eq-app-shell-poc #grammarForest119 .eq-grammar-nav-bridge{position:absolute!important;left:var(--eq-grammar-art-left,0px)!important;top:calc(var(--eq-grammar-art-top,0px) + var(--eq-grammar-art-height,100dvh) - 1px)!important;bottom:0!important;width:var(--eq-grammar-art-width,100%)!important;filter:none!important;pointer-events:none!important}
-html.eq-app-shell-poc #grammarForest119 img.quest119__art{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;max-width:none!important;max-height:none!important;object-fit:fill!important;object-position:center top!important;transform:none!important;z-index:1!important}
+html.eq-app-shell-poc #grammarForest119 img.quest119__art{position:absolute!important;inset:auto!important;left:var(--eq-grammar-art-left,0px)!important;top:var(--eq-grammar-art-top,0px)!important;width:var(--eq-grammar-art-width,100%)!important;height:var(--eq-grammar-art-height,100%)!important;max-width:none!important;max-height:none!important;object-fit:fill!important;object-position:center top!important;transform:none!important;z-index:1!important}
 html.eq-app-shell-poc #grammarForest119 .quest119__hotspot{left:calc(var(--eq-grammar-art-left,0px) + var(--eq-grammar-art-width,100%) * var(--eq-x))!important;right:auto!important;top:calc(var(--eq-grammar-art-top,0px) + var(--eq-grammar-art-height,100dvh) * var(--eq-y))!important;width:calc(var(--eq-grammar-art-width,100%) * var(--eq-w))!important;height:calc(var(--eq-grammar-art-height,100dvh) * var(--eq-h))!important}
-html.eq-app-shell-poc #grammarForest119 .stage1{--eq-x:0.46;--eq-y:0.2;--eq-w:0.24;--eq-h:0.078}
-html.eq-app-shell-poc #grammarForest119 .stage2{--eq-x:0.68;--eq-y:0.285;--eq-w:0.24;--eq-h:0.07}
-html.eq-app-shell-poc #grammarForest119 .stage3{--eq-x:0.3;--eq-y:0.326;--eq-w:0.25;--eq-h:0.065}
-html.eq-app-shell-poc #grammarForest119 .stage4{--eq-x:0.57;--eq-y:0.396;--eq-w:0.25;--eq-h:0.067}
-html.eq-app-shell-poc #grammarForest119 .stage5{--eq-x:0.27;--eq-y:0.455;--eq-w:0.25;--eq-h:0.066}
-html.eq-app-shell-poc #grammarForest119 .stage6{--eq-x:0.53;--eq-y:0.54;--eq-w:0.25;--eq-h:0.074}
-html.eq-app-shell-poc #grammarForest119 .stage7{--eq-x:0.22;--eq-y:0.55;--eq-w:0.26;--eq-h:0.075}
-html.eq-app-shell-poc #grammarForest119 .stage8{--eq-x:0.53;--eq-y:0.64;--eq-w:0.27;--eq-h:0.075}
-html.eq-app-shell-poc #grammarForest119 .stage9{--eq-x:0.27;--eq-y:0.675;--eq-w:0.25;--eq-h:0.074}
-html.eq-app-shell-poc #grammarForest119 .stage10{--eq-x:0.54;--eq-y:0.76;--eq-w:0.26;--eq-h:0.075}
+html.eq-app-shell-poc #grammarForest119 .stage1{--eq-x:0.439;--eq-y:0.208;--eq-w:0.3;--eq-h:0.081}
+html.eq-app-shell-poc #grammarForest119 .stage2{--eq-x:0.699;--eq-y:0.309;--eq-w:0.274;--eq-h:0.08}
+html.eq-app-shell-poc #grammarForest119 .stage3{--eq-x:0.245;--eq-y:0.326;--eq-w:0.307;--eq-h:0.077}
+html.eq-app-shell-poc #grammarForest119 .stage4{--eq-x:0.62;--eq-y:0.418;--eq-w:0.304;--eq-h:0.075}
+html.eq-app-shell-poc #grammarForest119 .stage5{--eq-x:0.231;--eq-y:0.451;--eq-w:0.282;--eq-h:0.073}
+html.eq-app-shell-poc #grammarForest119 .stage6{--eq-x:0.63;--eq-y:0.526;--eq-w:0.288;--eq-h:0.075}
+html.eq-app-shell-poc #grammarForest119 .stage7{--eq-x:0.204;--eq-y:0.563;--eq-w:0.309;--eq-h:0.076}
+html.eq-app-shell-poc #grammarForest119 .stage8{--eq-x:0.607;--eq-y:0.656;--eq-w:0.307;--eq-h:0.077}
+html.eq-app-shell-poc #grammarForest119 .stage9{--eq-x:0.137;--eq-y:0.693;--eq-w:0.319;--eq-h:0.081}
+html.eq-app-shell-poc #grammarForest119 .stage10{--eq-x:0.547;--eq-y:0.774;--eq-w:0.349;--eq-h:0.083}
+html.eq-app-shell-poc #grammarForest119 .grammar121Level{display:none!important}
 html.eq-app-shell-poc #grammarForest119 .quest119__back{top:calc(var(--eq-grammar-art-top,0px) + var(--eq-grammar-art-height,100dvh) * .02)!important;left:calc(var(--eq-grammar-art-left,0px) + var(--eq-grammar-art-width,100%) * .035)!important}
 html.eq-app-shell-poc .eq-shell-clean-hub .hub123Frame{left:var(--eq-hub-left,0px)!important;top:var(--eq-hub-top,0px)!important;width:var(--eq-hub-width,100%)!important;height:var(--eq-hub-height,100%)!important;transform:none!important;max-width:none!important}
 html.eq-app-shell-poc .eq-shell-clean-hub .hub123Art{object-fit:fill!important;z-index:1!important}
@@ -389,7 +390,7 @@ function layoutMapArt(){
 function cleanGrammarArt(){
   const img=document.querySelector('#grammarForest119 img.quest119__art');
   if(!img)return;
-  const src='assets/mobile-shell/grammar-forest-no-nav.png';
+  const src='assets/mobile-shell/grammar-forest-cafe-20261001.jpg';
   const changed=decodeURI(img.getAttribute('src')||'')!==src;
   if(changed)img.src=src;
   img.dataset.eqCleanGrammar='1';img.dataset.eqNoNavArt='1';
@@ -398,12 +399,11 @@ function cleanGrammarArt(){
 }
 function layoutGrammarArt(){
   const box=document.getElementById('grammarForest119'),img=box?.querySelector('img.quest119__art');
-  if(!box||!img||img.dataset.eqCleanGrammar!=='1'||!img.complete||!img.naturalWidth)return;
-  const h=box.clientHeight,w=box.clientWidth;
-  box.style.setProperty('--eq-grammar-art-width',w+'px');
-  box.style.setProperty('--eq-grammar-art-height',h+'px');
-  box.style.setProperty('--eq-grammar-art-left','0px');
-  box.style.setProperty('--eq-grammar-art-top','0px');
+  if(!box||box.hidden||!img||img.dataset.eqCleanGrammar!=='1'||!img.complete||!img.naturalWidth)return;
+  const nav=document.getElementById(NAV_ID),available=Math.max(1,(nav&&visible(nav)?nav.getBoundingClientRect().top:innerHeight)-6),ratio=img.naturalWidth/img.naturalHeight;
+  const w=Math.min(box.clientWidth,available*ratio),h=w/ratio;
+  const values={'--eq-grammar-art-width':w+'px','--eq-grammar-art-height':h+'px','--eq-grammar-art-left':((box.clientWidth-w)/2)+'px','--eq-grammar-art-top':(available-h)+'px'};
+  for(const [key,value] of Object.entries(values))if(box.style.getPropertyValue(key)!==value)box.style.setProperty(key,value);
 }
 function cleanHubArt(){
   const artwork={
@@ -544,6 +544,6 @@ function installRouteOwner(){
     return result;
   };
 }
-function init(){document.addEventListener('click',routeCompanionNav,true);installRouteOwner();const vocab=document.getElementById('vocabTown119');if(vocab)new MutationObserver(()=>{syncVocabMobileView();ownVocabPage();layoutVocabArt();homeNav()}).observe(vocab,{attributes:true,attributeFilter:['hidden']});window.addEventListener('english-quest:answer',keepHistoryInLiveState);document.addEventListener('click',captureLegacyAnswer,true);document.addEventListener('click',routeMapLearning,true);document.addEventListener('click',routeVocabMobileView,true);document.addEventListener('click',routeHomeGameHub,true);document.addEventListener('click',routeShellNav,false);document.addEventListener('click',scheduleShellSync,false);sync();addEventListener('resize',scheduleShellSync,{passive:true});addEventListener('load',()=>{installRouteOwner();sync()},true)}
+function init(){const forest=document.getElementById('grammarForest119');if(forest)new MutationObserver(()=>{layoutGrammarArt();homeNav()}).observe(forest,{attributes:true,attributeFilter:['hidden']});document.addEventListener('click',routeCompanionNav,true);installRouteOwner();const vocab=document.getElementById('vocabTown119');if(vocab)new MutationObserver(()=>{syncVocabMobileView();ownVocabPage();layoutVocabArt();homeNav()}).observe(vocab,{attributes:true,attributeFilter:['hidden']});window.addEventListener('english-quest:answer',keepHistoryInLiveState);document.addEventListener('click',captureLegacyAnswer,true);document.addEventListener('click',routeMapLearning,true);document.addEventListener('click',routeVocabMobileView,true);document.addEventListener('click',routeHomeGameHub,true);document.addEventListener('click',routeShellNav,false);document.addEventListener('click',scheduleShellSync,false);sync();addEventListener('resize',scheduleShellSync,{passive:true});addEventListener('load',()=>{installRouteOwner();sync()},true)}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();

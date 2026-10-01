@@ -2,10 +2,10 @@
   "schema": 1,
   "source": "private-vite-build",
   "sourceRepository": "jacn22025-spec/english-quest-private-backup",
-  "sourceCommit": "afbe12173bf7ab312fa636b58f96ed1a778b1293",
-  "source_commit_sha": "afbe12173bf7ab312fa636b58f96ed1a778b1293",
-  "buildRunId": "36812051864",
-  "generatedAt": "2026-10-01T03:46:48.087Z",
+  "sourceCommit": "d9d14866adf9b3a3e71095a8e50e0da66330dbd3",
+  "source_commit_sha": "d9d14866adf9b3a3e71095a8e50e0da66330dbd3",
+  "buildRunId": "36850588302",
+  "generatedAt": "2026-10-01T10:40:51.114Z",
   "files": {
     ".nojekyll": {
       "bytes": 0,
@@ -64,8 +64,8 @@
       "sha256": "4454076b21ea64cd5084ea51f858e7d06717faa658255f9ad8eee4984b5d4b82"
     },
     "assets/game-hub-v123.js": {
-      "bytes": 23050,
-      "sha256": "db5aa646e0c1421e6975e93bdced152d5d867adde8715ef575c543e793522475"
+      "bytes": 22265,
+      "sha256": "f5456d4940566dbe44afa77096ac744858e0889b679e1015806d9636987139f2"
     },
     "assets/game-hub-v123.png": {
       "bytes": 3751545,
@@ -80,8 +80,8 @@
       "sha256": "04ae1602646af2a8bb77302e7af743c3412a7cad9e9ff9d545373a57307a1ed3"
     },
     "assets/grammar-v121.js": {
-      "bytes": 15734,
-      "sha256": "55b942dc18b4d90dd407ca76a4b38ded158cf2314801e61cd4e0356bb3c6c8e7"
+      "bytes": 16836,
+      "sha256": "137b6977e012456169dadbd48158530c70045508d1ce859b54ce7fc556fd3589"
     },
     "assets/home-original-poodle.css": {
       "bytes": 230,
@@ -372,8 +372,8 @@
       "sha256": "3b5d1aa0202949332b0e4b6581e328d10a221124e6a6012989a45fd3099cb2ec"
     },
     "assets/mobile-app-shell-poc.js": {
-      "bytes": 51743,
-      "sha256": "f1ba0d78cd4714343fce6de479cd18c3b21ca472bcb852435da3843597f703ca"
+      "bytes": 52469,
+      "sha256": "18f7c975f36753e0d59165a02d62a900ad283f8e9ac9fef59a6047da910fcb9c"
     },
     "assets/mobile-shell/.gitkeep": {
       "bytes": 1,
@@ -402,6 +402,10 @@
     "assets/mobile-shell/grammar-exam-selection.png": {
       "bytes": 3369231,
       "sha256": "4af047301212dd04dc7624bc51df4469edcca30f7c25144bc891629530b33172"
+    },
+    "assets/mobile-shell/grammar-forest-cafe-20261001.jpg": {
+      "bytes": 671295,
+      "sha256": "1aa282c8e64074a4166ba17df2406709209afb4d607c021dc28ca2b992dda932"
     },
     "assets/mobile-shell/grammar-forest-no-nav.png": {
       "bytes": 2870356,
