@@ -2,14 +2,18 @@
   "schema": 1,
   "source": "private-vite-build",
   "sourceRepository": "jacn22025-spec/english-quest-private-backup",
-  "sourceCommit": "ecb63e0ac8068c335e41e9e18cbc4fc393af7fbe",
-  "source_commit_sha": "ecb63e0ac8068c335e41e9e18cbc4fc393af7fbe",
-  "buildRunId": "36431751351",
-  "generatedAt": "2026-09-28T13:52:49.514Z",
+  "sourceCommit": "8a4b79a07d012ee4d193d127a8afc589f4e826da",
+  "source_commit_sha": "8a4b79a07d012ee4d193d127a8afc589f4e826da",
+  "buildRunId": "36805955023",
+  "generatedAt": "2026-10-01T02:28:07.599Z",
   "files": {
     ".nojekyll": {
       "bytes": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "assets/ChatGPT 圖像 2026年9月27日 上午01_25_44.png": {
+      "bytes": 2708257,
+      "sha256": "1e7feb8420e489eced41944499e09c792b4f7f196f035317ede0771c01eb2e3a"
     },
     "assets/battle-v118.css": {
       "bytes": 6064,
@@ -27,13 +31,41 @@
       "bytes": 1075301,
       "sha256": "0ffb03f2bc79ac092914e088bca97bb55d8489600c1f8a1eb2464a86cecfd1a3"
     },
+    "assets/bottom-nav/nav-home.png": {
+      "bytes": 115182,
+      "sha256": "0e88f59cc8007a7c31dcf9f8ac604f0900cbba382a302b8f31a038e9bf03ef76"
+    },
+    "assets/bottom-nav/nav-map.png": {
+      "bytes": 114208,
+      "sha256": "80f0ce6bb249cbb4804e9d905d4d2c64039db49ed65974aefbc0bd54a743f3d5"
+    },
+    "assets/bottom-nav/nav-pet.png": {
+      "bytes": 114725,
+      "sha256": "2c2f7d4eb7ee7eb30c69323c5f76dcd559c8e8b94373d92853315555705f761b"
+    },
+    "assets/bottom-nav/nav-profile.png": {
+      "bytes": 96887,
+      "sha256": "68855273438bf56c411c8dd557036247467b87765750533fab67e21a52670994"
+    },
+    "assets/bottom-nav/nav-room.png": {
+      "bytes": 128067,
+      "sha256": "8ac961f954a6f100545bb4a2b071b8205c5dd6c68c78e41df4468e838d4e0d1a"
+    },
+    "assets/bottom-nav/nav-six.webp": {
+      "bytes": 41896,
+      "sha256": "f4d1f49f374140267cc9436510dfaf8895e4f74539f5fafcd48eea9f461fd332"
+    },
+    "assets/bottom-nav/nav-wardrobe.png": {
+      "bytes": 112078,
+      "sha256": "bff7fd8c1a02872ba7b2f1c00e26d1e0e55e98e02f6b1d6c2b00698c13acb94b"
+    },
     "assets/companion-v120.bundle.js": {
       "bytes": 658518,
       "sha256": "4454076b21ea64cd5084ea51f858e7d06717faa658255f9ad8eee4984b5d4b82"
     },
     "assets/game-hub-v123.js": {
-      "bytes": 18945,
-      "sha256": "4de755c8f75f10613fc411fae69aca84d66f2ec23bbf701c8589f0c97280d13a"
+      "bytes": 19137,
+      "sha256": "6af0fcd1de696c12f0c1f15275b205365aab21dda4261ad55b27f697a15d16ae"
     },
     "assets/game-hub-v123.png": {
       "bytes": 3751545,
@@ -48,8 +80,8 @@
       "sha256": "04ae1602646af2a8bb77302e7af743c3412a7cad9e9ff9d545373a57307a1ed3"
     },
     "assets/grammar-v121.js": {
-      "bytes": 14619,
-      "sha256": "bfd5de758f0b20a5f758a2c8d0c6696beab34c43e3433b18c5bc323280c71db3"
+      "bytes": 15734,
+      "sha256": "55b942dc18b4d90dd407ca76a4b38ded158cf2314801e61cd4e0356bb3c6c8e7"
     },
     "assets/home-original-poodle.css": {
       "bytes": 230,
@@ -67,13 +99,17 @@
       "bytes": 61053,
       "sha256": "a1ff14a8a8cba34ffd984b83bea9101912cd803ec69bc3a4139fb16bddd2a431"
     },
+    "assets/kumame-official.webp": {
+      "bytes": 7442,
+      "sha256": "d0f4948dc1d5689fcf204205074bd971bd9682842cfbdb4790e48aaf1e9f9417"
+    },
     "assets/learning-history-v125.js": {
       "bytes": 826,
       "sha256": "f2f72ba420f8263f73de817b30c71ad466e912f0a9e4e15558de3ce330b6b140"
     },
     "assets/learning-report-v124.js": {
-      "bytes": 8356,
-      "sha256": "e50cf37feac698cbce1b5e53bb44c6d8ee037dac89ec10c6e3b3ed8b427afc08"
+      "bytes": 8582,
+      "sha256": "27ac77215bb163e392897539e15b694e16be07182170ad5d2b81f94f2584e038"
     },
     "assets/map.jpg": {
       "bytes": 60977,
@@ -335,9 +371,81 @@
       "bytes": 108274,
       "sha256": "3b5d1aa0202949332b0e4b6581e328d10a221124e6a6012989a45fd3099cb2ec"
     },
+    "assets/mobile-app-shell-poc.js": {
+      "bytes": 51737,
+      "sha256": "3a942bb77f92435c9d4fa7f37189dabf001a439e6eb62ed65e0b9582794a0a16"
+    },
+    "assets/mobile-shell/.gitkeep": {
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    "assets/mobile-shell/E35B7F84-B50A-47D2-A3F0-6809EFE36E60.jpeg": {
+      "bytes": 692762,
+      "sha256": "d389863da7053246c4a5e14d0d6a23fe2e61cb9d054a8d7d1367ad76fc37ec7d"
+    },
+    "assets/mobile-shell/adventure-map-no-nav.png": {
+      "bytes": 2708257,
+      "sha256": "1e7feb8420e489eced41944499e09c792b4f7f196f035317ede0771c01eb2e3a"
+    },
+    "assets/mobile-shell/daily-spin-no-nav.png": {
+      "bytes": 2317262,
+      "sha256": "09a62016c1e623978a60c41102400dcabbb1b44b18d9c67fe0709d37b1a4cc68"
+    },
+    "assets/mobile-shell/game-hub-no-nav.png": {
+      "bytes": 2770181,
+      "sha256": "dcb8fa6e43861c6e1473c57caac138366f9022417f6b14b3bc5dbbdf5530c28d"
+    },
+    "assets/mobile-shell/game-no-nav.png": {
+      "bytes": 2668602,
+      "sha256": "0ea18e64fb4aaeaeb6a2885d2dc58c4f81265676d9b49e612c1e42de4093d6ee"
+    },
+    "assets/mobile-shell/grammar-forest-no-nav.png": {
+      "bytes": 2870356,
+      "sha256": "dcaff77bf7578a70dbaa26606ff250a6dd161f977d0771a1f8f95efd973800f6"
+    },
+    "assets/mobile-shell/grammar-forest-study-room-no-nav.png": {
+      "bytes": 2504811,
+      "sha256": "aebb3ff3fd9665ed292d24257da8a4389b396689fd27cf0b5454dfa5df24cc99"
+    },
+    "assets/mobile-shell/grammar-notes-no-nav.png": {
+      "bytes": 2218146,
+      "sha256": "eb85b81053965a9466ea36a3509b7a69c067c2bd08be78b5b7680d08db3e96dc"
+    },
+    "assets/mobile-shell/grammar-quiz-no-nav.png": {
+      "bytes": 2080462,
+      "sha256": "b5a36c7d4634dd632d95fb3297cdc5ef6a1d17b47be72bdc1cce881909518624"
+    },
+    "assets/mobile-shell/learning-radar-no-nav.png": {
+      "bytes": 586964,
+      "sha256": "9b7396a62683b25e16faa4eaac82453692c04b490e423acafb694e73cd87e14b"
+    },
+    "assets/mobile-shell/pet-game-no-nav.png": {
+      "bytes": 2196424,
+      "sha256": "8b242fd5d77d7f31534952d073633821c6b32a247df5856130edd88c7ca7837d"
+    },
+    "assets/mobile-shell/pet-no-nav.png": {
+      "bytes": 2083579,
+      "sha256": "fc8bae269d44a0862651239e0cbed5c47dbd23f03659c75b021eca25c43e8537"
+    },
+    "assets/mobile-shell/shop-no-nav.png": {
+      "bytes": 2595015,
+      "sha256": "91c2a45f29372f19c001b1af61e2b04850a5625e0826b605d2f50577888901e9"
+    },
+    "assets/mobile-shell/vocabulary-quiz-no-nav.png": {
+      "bytes": 2280890,
+      "sha256": "07d4e294b85fc71ef621cac7e38f31dc7e8814df51ff527517cf6b95296a7dbd"
+    },
+    "assets/mobile-shell/vocabulary-town-no-nav.png": {
+      "bytes": 2420710,
+      "sha256": "8de3c5877f50c5d5ebd9fd03ad70053c46115561b1d0e465bc610f2bc2f6a27d"
+    },
+    "assets/mobile-shell/wrong-book-no-nav.png": {
+      "bytes": 2113440,
+      "sha256": "451b1482c4a09f794a5e0009fd02875042e93ee673d1362c22ee9674dd4fef08"
+    },
     "assets/navigation-map-v122.js": {
-      "bytes": 7020,
-      "sha256": "4dece96b0ff7149fce023ceca8d1e3440bb84ffdf655e42efe5bbf9f357f54b1"
+      "bytes": 8026,
+      "sha256": "8f30e19edb84a9d4bef41268215ce3677c4f6256ba8a88c172545cd7e92e38b5"
     },
     "assets/pet.jpg": {
       "bytes": 52655,
@@ -2136,8 +2244,8 @@
       "sha256": "0745ccfaa3c8011d304c23a18cc784f6067e6f64d00e03204ff1e65e9ac7ad54"
     },
     "index.html": {
-      "bytes": 4147769,
-      "sha256": "bbe76071e5bcff4184ed656ba9fab52afb9f183b131c3a132c9bbbf755a11d5d"
+      "bytes": 4149489,
+      "sha256": "d130c1c88ede39f10ea056315f392da12c0c620c368a999c04f8d50e5362c9fd"
     }
   }
 }
