@@ -183,4 +183,4 @@ function init(){refreshLabels();const screen=document.getElementById('grammarFor
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 
-(()=>{const s=document.createElement('script');s.src='assets/navigation-map-v122.js';s.addEventListener('load',()=>{const shell=document.createElement('script');shell.src='assets/mobile-app-shell-poc.js';document.head.appendChild(shell)},{once:true});document.head.appendChild(s)})();
+(()=>{const s=document.createElement('script');s.src='assets/navigation-map-v122.js';s.addEventListener('load',()=>{const shell=document.createElement('script');shell.src='assets/mobile-app-shell-poc.js?v=20261001-forest-bottom';document.head.appendChild(shell)},{once:true});document.head.appendChild(s)})();
