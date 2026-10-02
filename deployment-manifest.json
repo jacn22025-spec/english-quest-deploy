@@ -2,10 +2,10 @@
   "schema": 1,
   "source": "private-vite-build",
   "sourceRepository": "jacn22025-spec/english-quest-private-backup",
-  "sourceCommit": "180f8d76f4073eface344a1f9464a7ec97784dcd",
-  "source_commit_sha": "180f8d76f4073eface344a1f9464a7ec97784dcd",
-  "buildRunId": "36875251189",
-  "generatedAt": "2026-10-01T14:28:24.961Z",
+  "sourceCommit": "9f04c262edafa93452ab5345d10c4785963371f4",
+  "source_commit_sha": "9f04c262edafa93452ab5345d10c4785963371f4",
+  "buildRunId": "36949094748",
+  "generatedAt": "2026-10-02T01:03:59.352Z",
   "files": {
     ".nojekyll": {
       "bytes": 0,
@@ -15,13 +15,17 @@
       "bytes": 2708257,
       "sha256": "1e7feb8420e489eced41944499e09c792b4f7f196f035317ede0771c01eb2e3a"
     },
+    "assets/app-release.min.js": {
+      "bytes": 692422,
+      "sha256": "af5b6ea7593fd0a1d378f826a70c3c6f8ef9398369b7604a2758b0de09872c13"
+    },
     "assets/battle-v118.css": {
       "bytes": 6064,
       "sha256": "d6294ad5c6befbb18d9ee78de7f0b3998cd35237fa2a4425699adf255a27544f"
     },
     "assets/battle-v118.js": {
-      "bytes": 13953,
-      "sha256": "3d14890de636d070972a85c343846fe92216a856b300d2f248ec3578a0b93005"
+      "bytes": 11696,
+      "sha256": "e511d4afc35d57667bcd248cb901d2cde7097099bb78550f0d51c62d46fd4559"
     },
     "assets/battle-v118/monster-mushroom.png": {
       "bytes": 85598,
@@ -59,14 +63,6 @@
       "bytes": 112078,
       "sha256": "bff7fd8c1a02872ba7b2f1c00e26d1e0e55e98e02f6b1d6c2b00698c13acb94b"
     },
-    "assets/companion-v120.bundle.js": {
-      "bytes": 658518,
-      "sha256": "4454076b21ea64cd5084ea51f858e7d06717faa658255f9ad8eee4984b5d4b82"
-    },
-    "assets/game-hub-v123.js": {
-      "bytes": 22265,
-      "sha256": "f5456d4940566dbe44afa77096ac744858e0889b679e1015806d9636987139f2"
-    },
     "assets/game-hub-v123.png": {
       "bytes": 3751545,
       "sha256": "193103beb2d8cae5077019960f8b5ccccf0160f801fad83568c066154918c7c8"
@@ -78,10 +74,6 @@
     "assets/grammar-notes-v123.png": {
       "bytes": 3268876,
       "sha256": "04ae1602646af2a8bb77302e7af743c3412a7cad9e9ff9d545373a57307a1ed3"
-    },
-    "assets/grammar-v121.js": {
-      "bytes": 16861,
-      "sha256": "fe6b0daa3859821bea6d0eb035aba9c993885aaba27a3bd52fef4ffeb05c5af0"
     },
     "assets/home-original-poodle.css": {
       "bytes": 230,
@@ -104,12 +96,12 @@
       "sha256": "d0f4948dc1d5689fcf204205074bd971bd9682842cfbdb4790e48aaf1e9f9417"
     },
     "assets/learning-history-v125.js": {
-      "bytes": 826,
-      "sha256": "f2f72ba420f8263f73de817b30c71ad466e912f0a9e4e15558de3ce330b6b140"
+      "bytes": 714,
+      "sha256": "cc6e025c31f7c670ccec4453bbd6b0e35493d697b7d184fd8ef62252fe30561e"
     },
     "assets/learning-report-v124.js": {
-      "bytes": 8582,
-      "sha256": "27ac77215bb163e392897539e15b694e16be07182170ad5d2b81f94f2584e038"
+      "bytes": 8003,
+      "sha256": "69af9f556dade3ee47b09a6a5b87cda1086498de6920a190945af779af5a1de5"
     },
     "assets/map.jpg": {
       "bytes": 60977,
@@ -372,8 +364,8 @@
       "sha256": "3b5d1aa0202949332b0e4b6581e328d10a221124e6a6012989a45fd3099cb2ec"
     },
     "assets/mobile-app-shell-poc.js": {
-      "bytes": 52242,
-      "sha256": "43c511e72109e9b695ac730a172e4e569794720c1dc754def129dfaecc5d1bbe"
+      "bytes": 47385,
+      "sha256": "2051245eb6582ad64a619aa2d5cf1e4220e08060724c14aada354be94abeb0dd"
     },
     "assets/mobile-shell/.gitkeep": {
       "bytes": 1,
@@ -456,8 +448,8 @@
       "sha256": "451b1482c4a09f794a5e0009fd02875042e93ee673d1362c22ee9674dd4fef08"
     },
     "assets/navigation-map-v122.js": {
-      "bytes": 8026,
-      "sha256": "8f30e19edb84a9d4bef41268215ce3677c4f6256ba8a88c172545cd7e92e38b5"
+      "bytes": 6803,
+      "sha256": "32b355a74346e3a70a0808f64e0fd9b98a9fcd021654301f1573d30bbf04adfa"
     },
     "assets/pet.jpg": {
       "bytes": 52655,
@@ -488,8 +480,8 @@
       "sha256": "31afbecadaef6da89edf023df400e08b3dfb44dd099c57e711d5e69c4c731784"
     },
     "assets/vocab-bank-v126.js": {
-      "bytes": 14187,
-      "sha256": "6731b10593b3c62a3e6296e3129e60f066899daab9d7260652dcd108712d3c8e"
+      "bytes": 13170,
+      "sha256": "7bfc3b75ff1dce97995d64f16cbd7ed2f3acbd65d92f09dc2bdaaf04ed34da2c"
     },
     "assets/vocab-exam-v123.png": {
       "bytes": 563834,
@@ -2256,8 +2248,8 @@
       "sha256": "0745ccfaa3c8011d304c23a18cc784f6067e6f64d00e03204ff1e65e9ac7ad54"
     },
     "index.html": {
-      "bytes": 4149514,
-      "sha256": "48df4d5ec1e8f380e787cde00b66f0ac63484262860578a5a1694e2826dc2e77"
+      "bytes": 4149375,
+      "sha256": "9ab126bac39813e7a162b36f925bbfbcecec2d7b3e7803acc9f4b9b97fa8c3a7"
     }
   }
 }
