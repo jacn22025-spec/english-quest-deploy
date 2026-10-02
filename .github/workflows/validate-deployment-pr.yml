@@ -329,10 +329,13 @@ jobs:
           if [ "${JOB_RESULT}" = success ]; then conclusion=success; fi
           gh api -X PATCH "repos/${GH_REPO}/check-runs/${CHECK_ID}" -f status=completed -f conclusion="${conclusion}" >/dev/null
 
+  # Production is intentionally manual. Validation may pass, but this workflow
+  # must never merge a deployment PR by itself. A human must explicitly merge
+  # the verified deployment PR before GitHub Pages / Production can change.
   merge:
     needs: validate
-    if: ${{ needs.validate.result == 'success' }}
-    name: Merge exact verified deployment PR
+    if: ${{ false }}
+    name: Manual production approval required
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
