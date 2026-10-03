@@ -2,10 +2,10 @@
   "schema": 1,
   "source": "private-vite-build",
   "sourceRepository": "jacn22025-spec/english-quest-private-backup",
-  "sourceCommit": "42db939e1ab2ac7650ff74bc1221c932d81b4e52",
-  "source_commit_sha": "42db939e1ab2ac7650ff74bc1221c932d81b4e52",
-  "buildRunId": "36957119392",
-  "generatedAt": "2026-10-02T02:46:07.203Z",
+  "sourceCommit": "ac88c3d9b998ef45b58e61060d265e5e1275d41d",
+  "source_commit_sha": "ac88c3d9b998ef45b58e61060d265e5e1275d41d",
+  "buildRunId": "37091305646",
+  "generatedAt": "2026-10-03T02:52:48.989Z",
   "files": {
     ".nojekyll": {
       "bytes": 0,
@@ -16,8 +16,8 @@
       "sha256": "1e7feb8420e489eced41944499e09c792b4f7f196f035317ede0771c01eb2e3a"
     },
     "assets/app-release.min.js": {
-      "bytes": 692422,
-      "sha256": "af5b6ea7593fd0a1d378f826a70c3c6f8ef9398369b7604a2758b0de09872c13"
+      "bytes": 684185,
+      "sha256": "a3804f1ac0209957722fb79c7c3922d3350e27fa681cd22b746c0760034d944c"
     },
     "assets/battle-v118.css": {
       "bytes": 6064,
@@ -96,8 +96,8 @@
       "sha256": "d0f4948dc1d5689fcf204205074bd971bd9682842cfbdb4790e48aaf1e9f9417"
     },
     "assets/learning-history-v125.js": {
-      "bytes": 714,
-      "sha256": "cc6e025c31f7c670ccec4453bbd6b0e35493d697b7d184fd8ef62252fe30561e"
+      "bytes": 782,
+      "sha256": "68c86044259c28b7e3cb79330204a532c66019998580956ccab87068a7e13b16"
     },
     "assets/learning-report-v124.js": {
       "bytes": 8003,
@@ -480,8 +480,8 @@
       "sha256": "31afbecadaef6da89edf023df400e08b3dfb44dd099c57e711d5e69c4c731784"
     },
     "assets/vocab-bank-v126.js": {
-      "bytes": 13170,
-      "sha256": "7bfc3b75ff1dce97995d64f16cbd7ed2f3acbd65d92f09dc2bdaaf04ed34da2c"
+      "bytes": 108,
+      "sha256": "22436b50e43987dc2ef00a6ba6ffb891da9fec0d41a24421aa13ac5b1ea140af"
     },
     "assets/vocab-exam-v123.png": {
       "bytes": 563834,
