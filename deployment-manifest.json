@@ -2,10 +2,10 @@
   "schema": 1,
   "source": "private-vite-build",
   "sourceRepository": "jacn22025-spec/english-quest-private-backup",
-  "sourceCommit": "ac88c3d9b998ef45b58e61060d265e5e1275d41d",
-  "source_commit_sha": "ac88c3d9b998ef45b58e61060d265e5e1275d41d",
-  "buildRunId": "37091305646",
-  "generatedAt": "2026-10-03T02:52:48.989Z",
+  "sourceCommit": "3baf918dc76f74cdcf8eeed84378b0aca67211ec",
+  "source_commit_sha": "3baf918dc76f74cdcf8eeed84378b0aca67211ec",
+  "buildRunId": "37168103208",
+  "generatedAt": "2026-10-04T01:28:35.229Z",
   "files": {
     ".nojekyll": {
       "bytes": 0,
@@ -24,8 +24,8 @@
       "sha256": "d6294ad5c6befbb18d9ee78de7f0b3998cd35237fa2a4425699adf255a27544f"
     },
     "assets/battle-v118.js": {
-      "bytes": 11696,
-      "sha256": "e511d4afc35d57667bcd248cb901d2cde7097099bb78550f0d51c62d46fd4559"
+      "bytes": 8105,
+      "sha256": "14855714126b6c65ecb1b558b3440d400c13cbec719417cda009e2fed55ddc0b"
     },
     "assets/battle-v118/monster-mushroom.png": {
       "bytes": 85598,
@@ -474,6 +474,10 @@
     "assets/spell.jpg": {
       "bytes": 46151,
       "sha256": "812d04ec4b5e3d25ec56f7c9a343574384574da1c0aecec8b786fc180c19a95b"
+    },
+    "assets/spelling-api-v127.js": {
+      "bytes": 1411,
+      "sha256": "ee29b1dd2bf68c7bea9349cb18dea67b2e8faf7054c99afe18d868884f376a53"
     },
     "assets/vendor/chart.umd.js": {
       "bytes": 208481,
@@ -2248,8 +2252,8 @@
       "sha256": "0745ccfaa3c8011d304c23a18cc784f6067e6f64d00e03204ff1e65e9ac7ad54"
     },
     "index.html": {
-      "bytes": 4149375,
-      "sha256": "9ab126bac39813e7a162b36f925bbfbcecec2d7b3e7803acc9f4b9b97fa8c3a7"
+      "bytes": 4146752,
+      "sha256": "f665f98117ae61e9017ada95ee8bc76fa4d1395feadb057659be3d01811b6e88"
     }
   }
 }
